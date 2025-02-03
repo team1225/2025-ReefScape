@@ -53,10 +53,10 @@ public class Ports {
 			public static final int pigeon2 = 2;
 
 			// SPARK MAX CAN IDs
-			public static final int FRONT_LEFT_DRIVING = 8;
-			public static final int REAR_LEFT_DRIVING = 6;
-			public static final int FRONT_RIGHT_DRIVING = 2;
-			public static final int REAR_RIGHT_DRIVING = 4;
+			public static final int FRONT_LEFT_DRIVING = 10;
+			public static final int REAR_LEFT_DRIVING = 8;
+			public static final int FRONT_RIGHT_DRIVING = 4;
+			public static final int REAR_RIGHT_DRIVING = 6;
 
 			public static final int FRONT_LEFT_TURNING = 9;
 			public static final int REAR_LEFT_TURNING = 7;
