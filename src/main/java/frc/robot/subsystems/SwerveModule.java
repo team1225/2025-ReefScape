@@ -20,9 +20,11 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkAnalogSensor;
 
 import frc.robot.Constants.SwerveModuleConstants;
 import frc.robot.sensors.ThriftyEncoder;
+import frc.robot.sensors.ThriftyEncoderOnSpark;
 
 /**
  * The {@code SwerveModule} class contains fields and methods pertaining to the function of a swerve module.
@@ -35,7 +37,8 @@ public class SwerveModule {
 
 	private final RelativeEncoder m_drivingEncoder;
 	private final RelativeEncoder m_turningEncoder;
-	private final ThriftyEncoder m_turningAbsoluteEncoder;
+	private final SparkAnalogSensor m_turningAnalogSensor;
+	private final ThriftyEncoderOnSpark m_turningAbsoluteEncoder;
 
 	private final SparkClosedLoopController m_drivingClosedLoopController;
 	private final SparkClosedLoopController m_turningClosedLoopController;
@@ -56,7 +59,8 @@ public class SwerveModule {
 		// Setup encoders and PID controllers for the driving and turning SPARKS MAX.
 		m_drivingEncoder = m_drivingSparkMax.getEncoder();
 		m_turningEncoder = m_turningSparkMax.getEncoder();
-		m_turningAbsoluteEncoder = new ThriftyEncoder(turningAnalogPort);
+		m_turningAnalogSensor = m_turningSparkMax.getAnalog();
+		m_turningAbsoluteEncoder = new ThriftyEncoderOnSpark(m_turningAnalogSensor);
 
 		m_drivingClosedLoopController = m_drivingSparkMax.getClosedLoopController();
 		m_turningClosedLoopController = m_turningSparkMax.getClosedLoopController();
@@ -182,7 +186,7 @@ public class SwerveModule {
 		return m_turningEncoder;
 	}
 
-	public ThriftyEncoder getTurningAbsoluteEncoder()
+	public ThriftyEncoderOnSpark getTurningAbsoluteEncoder()
 	{
 		return m_turningAbsoluteEncoder;
 	}
