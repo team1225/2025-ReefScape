@@ -69,11 +69,11 @@ public class Ports {
 		 * USB ports
 		 */
 		public static class USB {
-			public static final int RIGHT_JOYSTICK = 0;
+			public static final int RIGHT_JOYSTICK = 4;
 			public static final int LEFT_JOYSTICK = 1;
 			//public static final int DRIVER_GAMEPAD = 3;
 			public static final int COPILOT_GAMEPAD = 2;
-			public static final int MAIN_JOYSTICK = 4;
+			public static final int MAIN_JOYSTICK = 0;
 		}
 		
 		/**

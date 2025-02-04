@@ -258,7 +258,7 @@ public class RobotContainer {
 				() -> drivetrain.drive(
 					-MathUtil.applyDeadband(joyMain.getY(), JOYSTICK_AXIS_THRESHOLD),
 					-MathUtil.applyDeadband(joyMain.getX(), JOYSTICK_AXIS_THRESHOLD),
-					-MathUtil.applyDeadband(joyMain.getZ(), JOYSTICK_AXIS_THRESHOLD),
+					-MathUtil.applyDeadband(joyMain.getRawAxis(4), JOYSTICK_AXIS_THRESHOLD),
 					true, true),
 				drivetrain));
 
