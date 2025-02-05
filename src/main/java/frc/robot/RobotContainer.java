@@ -25,13 +25,13 @@ import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.sensors.*;
 
 import frc.robot.subsystems.SwerveDrivetrain;
-
+import frc.robot.subsystems.AlgaeBlaster;
 import frc.robot.subsystems.Indicator;
-
+import frc.robot.commands.algae_blaster.AlgaeBlasterBlastAndReset;
 import frc.robot.commands.drivetrain.*;
 import frc.robot.interfaces.ICamera;
 import frc.robot.commands.indicator.*;
-import frc.robot.commands.groups.*;
+// import frc.robot.commands.groups.*;
 
 
 /*
@@ -158,11 +158,7 @@ public class RobotContainer {
 	
 	// private final /*I*/Shooter shooter = new Shooter(shooter_master);
 
-	// pneumatic devices
-
-	//private final Compressor compressor = new Compressor();
-
-	//private final Mouth mouth = new Mouth();
+	private final AlgaeBlaster algaeBlaster = new AlgaeBlaster();
 
 	// misc
 
@@ -175,7 +171,6 @@ public class RobotContainer {
 	/*CommandJoystick joyLeft = new CommandJoystick(Ports.USB.LEFT_JOYSTICK);
 	CommandJoystick joyRight = new CommandJoystick(Ports.USB.RIGHT_JOYSTICK);*/
 	CommandJoystick joyMain = new CommandJoystick(Ports.USB.MAIN_JOYSTICK);
-	//CommandXboxController driverGamepad = new CommandXboxController(Ports.USB.DRIVER_GAMEPAD);
 	CommandXboxController copilotGamepad = new CommandXboxController(Ports.USB.COPILOT_GAMEPAD);
 	
 
@@ -347,20 +342,11 @@ public class RobotContainer {
 		// copilotGamepad.b()
 		// 	.whileTrue(new RollerRoll(roller));
 
-		// copilotGamepad.x()
-		// 	//.onTrue(new MouthSafeClose(mouth, neck, getCopilotGamepad()));
-		// 	//.onTrue(new RollerRollUntilNoteSensed(roller, getNoteSensor()));
-		// 	//.onTrue(new RollerSmartRoll(roller, noteSensor));
-		// 	//.onTrue(new RollerRollLowRpmUntilNoteSensed(roller, getNoteSensor()));
-		// 	//.onTrue(new RollerSuperSmartRoll(roller, noteSensor));
-		// 	.onTrue(new RollerReleaseShortDistance(roller));
+		copilotGamepad.x()
+			.onTrue(new AlgaeBlasterBlastAndReset(algaeBlaster));
 
 		// copilotGamepad.y()
 		// 	//.whileTrue(new RollerRollLowRpm(roller));
-		// 	//.onTrue(new RollerRollLowRpmUntilNoteSensed(roller, getNoteSensor()));
-		// 	//.onTrue(new RollerReleaseShortDistance(roller));
-		// 	//.onTrue(new RollerSuperSmartRoll(roller, noteSensor, noteSensorTwo));
-		// 	.onTrue(new RollerRollLowRpmUntilNoteSensed(roller, noteSensor, noteSensorTwo));
 			
 		// copilotGamepad.back()
 		// 	//.onTrue(new DrivetrainAndGyroReset(drivetrain));
@@ -370,7 +356,6 @@ public class RobotContainer {
 		// 	//.onTrue(new AlmostEverythingStop(elevator, neck, roller));
 		// 	.onTrue(new NeckHome(neck));
 
-
 		// copilotGamepad.leftTrigger()
 		// 	//.onTrue(new DrawerRetractWithStallDetection(drawer));
 		// 	//.whileTrue(new ShooterTake(shooter));
@@ -379,7 +364,6 @@ public class RobotContainer {
 		// copilotGamepad.rightTrigger()
 		// 	//.onTrue(new DrawerExtendWithStallDetection(drawer));
 		// 	.whileTrue(new RollerRoll(roller));
-
 
 		// copilotGamepad.povDown()
 		// 	//.onTrue(new ElevatorMoveDownWithStallDetection(elevator));

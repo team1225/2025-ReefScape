@@ -46,6 +46,8 @@ public class Ports {
 		 * CAN Ids
 		 */
 		public static class CAN {
+			// Pneumatic Control Module
+			public static final int PCM = 12;
 			//2025 Robot
 			public static final int RIO = 0;
 			public static final int PDP = 1;	
@@ -71,7 +73,6 @@ public class Ports {
 		public static class USB {
 			public static final int RIGHT_JOYSTICK = 4;
 			public static final int LEFT_JOYSTICK = 1;
-			//public static final int DRIVER_GAMEPAD = 3;
 			public static final int COPILOT_GAMEPAD = 2;
 			public static final int MAIN_JOYSTICK = 0;
 		}
@@ -80,6 +81,8 @@ public class Ports {
 		 * PCM ports
 		 */
 		public static class PCM {
+			public static final int ALGAE_BLASTER_BLAST = 0;
+			public static final int ALGAE_BLASTER_RESET = 1;
 		}
 
 		/**
