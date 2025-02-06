@@ -44,12 +44,12 @@ public class AlgaeBlaster extends SubsystemBase {
 		{
 			case BLAST: //Telling the solenoid to have the piston go up
 			{
-				blastSolenoid.set(DoubleSolenoid.Value.kReverse); // adjust direction if needed
+				blastSolenoid.set(DoubleSolenoid.Value.kForward); // adjust direction if needed
 				break;
 			}
 			case RESET: //Telling the solenoid to have the piston go down
 			{
-				blastSolenoid.set(DoubleSolenoid.Value.kForward); // adjust direction if needed
+				blastSolenoid.set(DoubleSolenoid.Value.kReverse); // adjust direction if needed
 				break;
 			}
 			default:

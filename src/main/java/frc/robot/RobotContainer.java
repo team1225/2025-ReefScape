@@ -168,10 +168,10 @@ public class RobotContainer {
 
 	// The driver's and copilot's joystick(s) and controller(s)
 
-	/*CommandJoystick joyLeft = new CommandJoystick(Ports.USB.LEFT_JOYSTICK);
-	CommandJoystick joyRight = new CommandJoystick(Ports.USB.RIGHT_JOYSTICK);*/
+	// /*CommandJoystick joyLeft = new CommandJoystick(Ports.USB.LEFT_JOYSTICK);
+	CommandJoystick joyRight = new CommandJoystick(Ports.USB.RIGHT_JOYSTICK);
 	CommandJoystick joyMain = new CommandJoystick(Ports.USB.MAIN_JOYSTICK);
-	CommandXboxController copilotGamepad = new CommandXboxController(Ports.USB.COPILOT_GAMEPAD);
+	// CommandXboxController copilotGamepad = new CommandXboxController(Ports.USB.COPILOT_GAMEPAD);
 	
 
 	/**
@@ -295,8 +295,8 @@ public class RobotContainer {
 			//.whileTrue(new DrivetrainSetXFormation(drivetrain));	
 			.whileTrue(new DrivetrainDriveUsingObjectDetectionCamera(drivetrain, object_detection_camera, getMainJoystick()));
 			
-		// joyMain.button(3)
-		// 	.onTrue(new MoveInLShapeInReverse(drivetrain, this, 3));
+		joyMain.button(3)
+			.onTrue(new AlgaeBlasterBlastAndReset(algaeBlaster));
 			
 		// joyMain.button(4)
 		// 	.onTrue(new MoveInGammaShape(drivetrain, this, 3));
@@ -340,10 +340,10 @@ public class RobotContainer {
 		// 	.whileTrue(new RollerRelease(roller));
 		
 		// copilotGamepad.b()
-		// 	.whileTrue(new RollerRoll(roller));
+		// // 	.whileTrue(new RollerRoll(roller));
 
-		copilotGamepad.x()
-			.onTrue(new AlgaeBlasterBlastAndReset(algaeBlaster));
+		// copilotGamepad.x()
+		// 	.onTrue(new AlgaeBlasterBlastAndReset(algaeBlaster));
 
 		// copilotGamepad.y()
 		// 	//.whileTrue(new RollerRollLowRpm(roller));
@@ -420,11 +420,11 @@ public class RobotContainer {
 		// copilotGamepad.axisLessThan(RY,-GAMEPAD_AXIS_THRESHOLD)
 		// 	.whileTrue(new NeckGamepadControl(neck, getCopilotGamepad()));
 
-		copilotGamepad.axisGreaterThan(RX,GAMEPAD_AXIS_THRESHOLD);
+		// copilotGamepad.axisGreaterThan(RX,GAMEPAD_AXIS_THRESHOLD);
 			//.whileTrue(new DrawerGamepadControl(drawer, getCopilotGamepad()));
 			//.onTrue(new NeckMovePodiumWithStallDetection(neck));
 
-		copilotGamepad.axisLessThan(RX,-GAMEPAD_AXIS_THRESHOLD);
+		// copilotGamepad.axisLessThan(RX,-GAMEPAD_AXIS_THRESHOLD);
 			//.whileTrue(new DrawerGamepadControl(drawer, getCopilotGamepad()));
 			//.onTrue(new NeckMoveSubWithStallDetection(neck));
 			
@@ -555,10 +555,10 @@ public class RobotContainer {
 		return joyMain.getHID();
 	}
 
-	public XboxController getCopilotGamepad()
-	{
-		return copilotGamepad.getHID();
-	}
+	// public XboxController getCopilotGamepad()
+	// {
+		// return copilotGamepad.getHID();
+	// }
 
 	public SendableChooser<String> getAutonChooser()
 	{

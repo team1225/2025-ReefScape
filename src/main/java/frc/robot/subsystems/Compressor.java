@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import java.util.Timer;
 import java.util.TimerTask;
 
-//import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -30,7 +30,7 @@ public class Compressor extends SubsystemBase {
 	 * Constructs a new {@code Compressor} with a set {@code DigitalInput} and {@code Relay}.
 	 */
 	public Compressor() {
-		//checkPressure = new DigitalInput(Ports.Digital.CHECK_PRESSURE);
+		// checkPressure = new DigitalInput(Ports.Digital.CHECK_PRESSURE);
 		checkPressure = new edu.wpi.first.wpilibj.Compressor(Ports.CAN.PCM, PneumaticsModuleType.REVPH);
 		relay = new Relay(Ports.Relay.COMPRESSOR_RELAY);
 	}
