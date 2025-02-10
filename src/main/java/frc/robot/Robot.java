@@ -45,7 +45,40 @@ public class Robot extends TimedRobot {
 		// autonomous chooser on the dashboard.
 		m_robotContainer = new RobotContainer();
 
-		SmartDashboard.putData("Swerve Odometry", m_robotContainer.getField());		
+		SmartDashboard.putData("Swerve Odometry", m_robotContainer.getField());	
+		SmartDashboard.putData("Swerve", builder -> {
+			builder.setSmartDashboardType("SwerveDrive");
+			builder.addDoubleProperty(
+			  "Front Left Angle", () -> m_robotContainer.getDrivetrain().getFrontLeftModule().getTurningAbsoluteEncoder().getVirtualPosition(), null);
+			builder.addDoubleProperty(
+			  "Front Left Raw Angle", () -> m_robotContainer.getDrivetrain().getFrontLeftModule().getTurningAbsoluteEncoder().getPosition(), null);
+			builder.addDoubleProperty(
+			  "Front Right Angle", () -> m_robotContainer.getDrivetrain().getFrontRightModule().getTurningAbsoluteEncoder().getVirtualPosition(), null);
+			builder.addDoubleProperty(
+				"Front Right Raw Angle", () -> m_robotContainer.getDrivetrain().getFrontRightModule().getTurningAbsoluteEncoder().getPosition(), null);
+			builder.addDoubleProperty(
+			  "Back Left Angle", () -> m_robotContainer.getDrivetrain().getRearLeftModule().getTurningAbsoluteEncoder().getVirtualPosition(), null);
+	  
+			builder.addDoubleProperty(
+			  "Back Left Raw Angle", () -> m_robotContainer.getDrivetrain().getRearLeftModule().getTurningAbsoluteEncoder().getPosition(), null);
+			builder.addDoubleProperty(
+			  "Back Right Angle", () -> m_robotContainer.getDrivetrain().getRearRightModule().getTurningAbsoluteEncoder().getVirtualPosition(), null);
+	  
+			builder.addDoubleProperty(
+			  "Back Right Raw Angle", () -> m_robotContainer.getDrivetrain().getRearRightModule().getTurningAbsoluteEncoder().getPosition(), null);
+			builder.addDoubleProperty(
+			  "Robot Angle", () -> (m_robotContainer.getDrivetrain().getImu().getYaw().getValueAsDouble() * Math.PI/180), null);
+	  
+			builder.addDoubleProperty(
+			  "Front Right Angle", () -> m_robotContainer.getDrivetrain().getFrontRightModule().getTurningAbsoluteEncoder().getVirtualPosition(), null);
+	  
+			builder.addDoubleProperty(
+			  "Back Left Angle", () -> m_robotContainer.getDrivetrain().getRearLeftModule().getTurningAbsoluteEncoder().getVirtualPosition(), null);
+	  
+			builder.addDoubleProperty(
+			  "Back Right Angle", () -> m_robotContainer.getDrivetrain().getRearRightModule().getTurningAbsoluteEncoder().getVirtualPosition(), null);
+		  }
+		  );
 	}
 
 	/**

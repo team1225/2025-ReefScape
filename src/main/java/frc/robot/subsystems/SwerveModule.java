@@ -138,7 +138,7 @@ public class SwerveModule {
 		correctedDesiredState.angle = desiredState.angle; //.plus(Rotation2d.fromRadians(m_chassisAngularOffset));
 
 		// Optimize the reference state to avoid spinning further than 90 degrees.
-		correctedDesiredState.optimize(new Rotation2d(m_turningEncoder.getPosition()));
+		//correctedDesiredState.optimize(new Rotation2d(m_turningEncoder.getPosition()));
 
 		if (Math.abs(correctedDesiredState.speedMetersPerSecond) < 0.001 // less than 1 mm per sec
 			&& Math.abs(correctedDesiredState.angle.getRadians() - m_turningEncoder.getPosition()) < Rotation2d.fromDegrees(1).getRadians()) // less than 1 degree
