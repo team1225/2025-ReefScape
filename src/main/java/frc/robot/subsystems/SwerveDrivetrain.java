@@ -128,16 +128,11 @@ public class SwerveDrivetrain extends SubsystemBase {
 	/** Creates a new Drivetrain. */
 	public SwerveDrivetrain() {
 		try{
-		config = RobotConfig.fromGUISettings();
+			config = RobotConfig.fromGUISettings();
 		} catch (Exception e) {
-		// Handle exception as needed
-		e.printStackTrace();
+			// Handle exception as needed
+			e.printStackTrace();
 		}
-
-		m_frontLeft.calibrateVirtualPosition(FRONT_LEFT_VIRTUAL_OFFSET_RADIANS); // set virtual position for absolute encoder
-		m_frontRight.calibrateVirtualPosition(FRONT_RIGHT_VIRTUAL_OFFSET_RADIANS);
-		m_rearLeft.calibrateVirtualPosition(REAR_LEFT_VIRTUAL_OFFSET_RADIANS);
-		m_rearRight.calibrateVirtualPosition(REAR_RIGHT_VIRTUAL_OFFSET_RADIANS);
 
 		m_frontLeft.resetEncoders(); // resets relative encoders
 		m_frontRight.resetEncoders();
@@ -299,7 +294,8 @@ public class SwerveDrivetrain extends SubsystemBase {
 
 		var swerveModuleStates = DrivetrainConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
 			fieldRelative
-				? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, Rotation2d.fromDegrees(GYRO_ORIENTATION * m_gyro.getYaw().getValueAsDouble()))
+				? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, 
+					Rotation2d.fromDegrees(GYRO_ORIENTATION * m_gyro.getYaw().getValueAsDouble()))
 				: new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
 
 		SwerveDriveKinematics.desaturateWheelSpeeds(
@@ -519,7 +515,7 @@ public class SwerveDrivetrain extends SubsystemBase {
 		
 		// calling disable() on controller will force a call to pidWrite with zero output
 		// which we need to handle by not doing anything that could have a side effect 
-		if (output != 0 && Math.abs(turnPidController.getPositionError()) < DEGREE_THRESHOLD)
+		if (output != 0 && Math.abs(turnPidController.getError()) < DEGREE_THRESHOLD)
 		{
 			output = 0;
 		}
