@@ -20,11 +20,10 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkAbsoluteEncoder;
 import com.revrobotics.spark.SparkAnalogSensor;
 
 import frc.robot.Constants.SwerveModuleConstants;
-import frc.robot.sensors.ThriftyEncoder;
-import frc.robot.sensors.ThriftyEncoderOnSpark;
 
 /**
  * The {@code SwerveModule} class contains fields and methods pertaining to the function of a swerve module.
@@ -37,8 +36,7 @@ public class SwerveModule {
 
 	private final RelativeEncoder m_drivingEncoder;
 	private final RelativeEncoder m_turningEncoder;
-	private final SparkAnalogSensor m_turningAnalogSensor;
-	private final ThriftyEncoderOnSpark m_turningAbsoluteEncoder;
+	private final SparkAbsoluteEncoder m_turningAbsoluteEncoder;
 
 	private final SparkClosedLoopController m_drivingClosedLoopController;
 	private final SparkClosedLoopController m_turningClosedLoopController;
@@ -50,6 +48,7 @@ public class SwerveModule {
 	 * encoder, and PID controller.
 	 */
 	public SwerveModule(int drivingCANId, int turningCANId, int turningAnalogPort) {
+		double turningFactor = 2 * Math.PI;
 		drivingConfig = new SparkMaxConfig();
 		turningConfig = new SparkMaxConfig();
 
@@ -59,8 +58,7 @@ public class SwerveModule {
 		// Setup encoders and PID controllers for the driving and turning SPARKS MAX.
 		m_drivingEncoder = m_drivingSparkMax.getEncoder();
 		m_turningEncoder = m_turningSparkMax.getEncoder();
-		m_turningAnalogSensor = m_turningSparkMax.getAnalog();
-		m_turningAbsoluteEncoder = new ThriftyEncoderOnSpark(m_turningAnalogSensor);
+		m_turningAbsoluteEncoder = m_turningSparkMax.getAbsoluteEncoder();
 
 		m_drivingClosedLoopController = m_drivingSparkMax.getClosedLoopController();
 		m_turningClosedLoopController = m_turningSparkMax.getClosedLoopController();
@@ -84,12 +82,10 @@ public class SwerveModule {
             .idleMode(SwerveModuleConstants.TURNING_MOTOR_IDLE_MODE)
             .smartCurrentLimit(SwerveModuleConstants.TURNING_MOTOR_CURRENT_LIMIT_AMPS);
         turningConfig.encoder
-            // Invert the turning encoder, since the output shaft rotates in the opposite
-            // direction of the steering motor in the MAXSwerve Module.
             .positionConversionFactor(SwerveModuleConstants.TURNING_ENCODER_POSITION_FACTOR_RADIANS_PER_ROTATION) // radians
             .velocityConversionFactor(SwerveModuleConstants.TURNING_ENCODER_VELOCITY_FACTOR_RADIANS_PER_SECOND_PER_RPM); // radians per second
         turningConfig.closedLoop
-            .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+            .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
             // These are example gains you may need to them for your own robot!
             .pid(SwerveModuleConstants.TURNING_P, SwerveModuleConstants.TURNING_I, SwerveModuleConstants.TURNING_D)
             .outputRange(SwerveModuleConstants.TURNING_MIN_OUTPUT_NORMALIZED, SwerveModuleConstants.TURNING_MAX_OUTPUT_NORMALIZED)
@@ -99,7 +95,7 @@ public class SwerveModule {
             // to 10 degrees will go through 0 rather than the other direction which is a
             // longer route.
             .positionWrappingEnabled(true)
-            .positionWrappingInputRange(SwerveModuleConstants.TURNING_ENCODER_POSITION_PID_MIN_INPUT_RADIANS, SwerveModuleConstants.TURNING_ENCODER_POSITION_PID_MAX_INPUT_RADIANS);
+            .positionWrappingInputRange(0, turningFactor);
 		m_turningSparkMax.configure(turningConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 		m_desiredState.angle = new Rotation2d(m_turningEncoder.getPosition());
 		m_drivingEncoder.setPosition(0);
@@ -156,26 +152,6 @@ public class SwerveModule {
 		m_desiredState = desiredState;
 	}
 
-	/** Zeroes all the SwerveModule relative encoders. */
-	public void resetEncoders() {
-
-		m_drivingEncoder.setPosition(0); // arbitrarily set driving encoder to zero
-
-		// temp
-		//m_turningAbsoluteEncoder.resetVirtualPosition();
-		// the reading and setting of the calibrated absolute turning encoder values is done in the Drivetrain's constructor
-
-		m_turningSparkMax.set(0); // no moving during reset of relative turning encoder
-
-		m_turningEncoder.setPosition(m_turningAbsoluteEncoder.getVirtualPosition()); // set relative position based on virtual absolute position
-	}
-
-	/** Calibrates the virtual position (i.e. sets position offset) of the absolute encoder. */
-	public void calibrateVirtualPosition(double angle)
-	{
-		m_turningAbsoluteEncoder.setPositionOffset(angle);
-	}
-
 	public RelativeEncoder getDrivingEncoder()
 	{
 		return m_drivingEncoder;
@@ -186,7 +162,7 @@ public class SwerveModule {
 		return m_turningEncoder;
 	}
 
-	public ThriftyEncoderOnSpark getTurningAbsoluteEncoder()
+	public SparkAbsoluteEncoder getTurningAbsoluteEncoder()
 	{
 		return m_turningAbsoluteEncoder;
 	}
@@ -195,5 +171,8 @@ public class SwerveModule {
 	{
 		return m_desiredState;
 	}
-
+	/** Zeroes the SwerveModule drive encoders. */
+	public void resetEncoders() {
+		m_drivingEncoder.setPosition(0);
+	}
 }
