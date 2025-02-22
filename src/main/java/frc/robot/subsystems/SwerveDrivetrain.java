@@ -43,7 +43,7 @@ public class SwerveDrivetrain extends SubsystemBase {
 
 	// calibration: manually move wheels so it's facing straight then record the number below, deploy code then enable :)
 
-	public static final int GYRO_ORIENTATION = -1; // might be able to merge with kGyroReversed
+	public static final int GYRO_ORIENTATION = 1; // might be able to merge with kGyroReversed
 
 	public static final double FIELD_LENGTH_INCHES = 54*12+1; // 54ft 1in
 	public static final double FIELD_WIDTH_INCHES = 26*12+7; // 26ft 7in

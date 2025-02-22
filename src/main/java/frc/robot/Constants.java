@@ -88,7 +88,7 @@ public final class Constants {
 
 		// Calculations required for driving motor conversion factors and feed forward
 		public static final double DRIVING_MOTOR_FREE_SPEED_RPS = NeoMotorConstants.FREE_SPEED_RPM / 60;
-		public static final double WHEEL_DIAMETER_METERS = 0.1016;
+		public static final double WHEEL_DIAMETER_METERS = Units.inchesToMeters(4);
 		public static final double WHEEL_CIRCUMFERENCE_METERS = WHEEL_DIAMETER_METERS * Math.PI;
 		// 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15 teeth on the bevel pinion
 		public static final double DRIVING_MOTOR_REDUCTION = (45.0 * 17 * 50) / (kDrivingMotorPinionTeeth * 15 * 27);
@@ -100,7 +100,7 @@ public final class Constants {
 		public static final double TURNING_ENCODER_POSITION_FACTOR_RADIANS_PER_ROTATION = (2 * Math.PI); // radians, per rotation
 		public static final double TURNING_ENCODER_VELOCITY_FACTOR_RADIANS_PER_SECOND_PER_RPM = (2 * Math.PI) / 60.0; // radians per second, per RPM
 
-		public static final double TURNING_ENCODER_POSITION_PID_MIN_INPUT_RADIANS = 0; // radians
+		public static final double TURNING_ENCODER_POSITION_PID_MIN_INPUT_RADIANS = -(2 * Math.PI); // radians
 		public static final double TURNING_ENCODER_POSITION_PID_MAX_INPUT_RADIANS = (2 * Math.PI); // radians
 
 		public static final double DRIVING_P = 0.04;
@@ -110,12 +110,12 @@ public final class Constants {
 		public static final double DRIVING_MIN_OUTPUT_NORMALIZED = -1;
 		public static final double DRIVING_MAX_OUTPUT_NORMALIZED = 1;
 
-		public static final double TURNING_P = 0.05; // 1.0 might be a bit too much - reduce a bit if needed
+		public static final double TURNING_P = .5; // 1.0 might be a bit too much - reduce a bit if needed
 		public static final double TURNING_I = 0;
 		public static final double TURNING_D = 0;
 		public static final double TURNING_FF = 0;
-		public static final double TURNING_MIN_OUTPUT_NORMALIZED = -1;
-		public static final double TURNING_MAX_OUTPUT_NORMALIZED = 1;
+		public static final double TURNING_MIN_OUTPUT_NORMALIZED = -.25;
+		public static final double TURNING_MAX_OUTPUT_NORMALIZED = .25;
 
 		public static final IdleMode DRIVING_MOTOR_IDLE_MODE = IdleMode.kBrake;
 		public static final IdleMode TURNING_MOTOR_IDLE_MODE = IdleMode.kBrake;

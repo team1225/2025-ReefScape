@@ -77,10 +77,10 @@ public class SwerveModule {
 		m_drivingSparkMax.configure(drivingConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
 		turningConfig
-			.inverted(true)
+			.inverted(false)
             .idleMode(SwerveModuleConstants.TURNING_MOTOR_IDLE_MODE)
             .smartCurrentLimit(SwerveModuleConstants.TURNING_MOTOR_CURRENT_LIMIT_AMPS);
-        turningConfig.encoder
+        turningConfig.absoluteEncoder
             .positionConversionFactor(SwerveModuleConstants.TURNING_ENCODER_POSITION_FACTOR_RADIANS_PER_ROTATION) // radians
             .velocityConversionFactor(SwerveModuleConstants.TURNING_ENCODER_VELOCITY_FACTOR_RADIANS_PER_SECOND_PER_RPM); // radians per second
         turningConfig.closedLoop
@@ -130,7 +130,7 @@ public class SwerveModule {
 		// Apply chassis angular offset to the desired state.
 		SwerveModuleState correctedDesiredState = new SwerveModuleState();
 		correctedDesiredState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
-		correctedDesiredState.angle = desiredState.angle; //.plus(Rotation2d.fromRadians(m_chassisAngularOffset));
+		correctedDesiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(0));
 
 		// Optimize the reference state to avoid spinning further than 90 degrees.
 		correctedDesiredState.optimize(new Rotation2d(m_turningAbsoluteEncoder.getPosition()));
