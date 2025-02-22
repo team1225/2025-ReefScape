@@ -97,7 +97,7 @@ public class SwerveModule {
             .positionWrappingEnabled(true)
             .positionWrappingInputRange(0, turningFactor);
 		m_turningSparkMax.configure(turningConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-		m_desiredState.angle = new Rotation2d(m_turningEncoder.getPosition());
+		m_desiredState.angle = new Rotation2d(m_turningAbsoluteEncoder.getPosition());
 		m_drivingEncoder.setPosition(0);
 	}
 
@@ -108,7 +108,7 @@ public class SwerveModule {
 	 */
 	public SwerveModuleState getState() {
 		return new SwerveModuleState(m_drivingEncoder.getVelocity(),
-			new Rotation2d(m_turningEncoder.getPosition()));
+			new Rotation2d(m_turningAbsoluteEncoder.getPosition()));
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class SwerveModule {
 	public SwerveModulePosition getPosition() {
 		return new SwerveModulePosition(
 			m_drivingEncoder.getPosition(),
-			new Rotation2d(m_turningEncoder.getPosition()));
+			new Rotation2d(m_turningAbsoluteEncoder.getPosition()));
 	}
 
 	/**
@@ -134,10 +134,10 @@ public class SwerveModule {
 		correctedDesiredState.angle = desiredState.angle; //.plus(Rotation2d.fromRadians(m_chassisAngularOffset));
 
 		// Optimize the reference state to avoid spinning further than 90 degrees.
-		correctedDesiredState.optimize(new Rotation2d(m_turningEncoder.getPosition()));
+		correctedDesiredState.optimize(new Rotation2d(m_turningAbsoluteEncoder.getPosition()));
 
 		if (Math.abs(correctedDesiredState.speedMetersPerSecond) < 0.001 // less than 1 mm per sec
-			&& Math.abs(correctedDesiredState.angle.getRadians() - m_turningEncoder.getPosition()) < Rotation2d.fromDegrees(1).getRadians()) // less than 1 degree
+			&& Math.abs(correctedDesiredState.angle.getRadians() - m_turningAbsoluteEncoder.getPosition()) < Rotation2d.fromDegrees(1).getRadians()) // less than 1 degree
 		{
 			m_drivingSparkMax.set(0); // no point in doing anything
 			m_turningSparkMax.set(0);
