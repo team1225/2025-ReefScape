@@ -46,7 +46,7 @@ public class SwerveModule {
 	 * Constructs a SwerveModule and configures the driving and turning motor,
 	 * encoder, and PID controller.
 	 */
-	public SwerveModule(int drivingCANId, int turningCANId, int turningAnalogPort) {
+	public SwerveModule(int drivingCANId, int turningCANId) {
 		double turningFactor = 2 * Math.PI;
 		drivingConfig = new SparkMaxConfig();
 		turningConfig = new SparkMaxConfig();

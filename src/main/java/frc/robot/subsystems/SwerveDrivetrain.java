@@ -43,12 +43,6 @@ public class SwerveDrivetrain extends SubsystemBase {
 
 	// calibration: manually move wheels so it's facing straight then record the number below, deploy code then enable :)
 
-	public static final double FRONT_LEFT_VIRTUAL_OFFSET_RADIANS = -2.897; // adjust as needed so that virtual (turn) position of wheel is zero when straight
-	public static final double REAR_LEFT_VIRTUAL_OFFSET_RADIANS = 1.725; // adjust as needed so that virtual (turn) position of wheel is zero when straight
-	
-	public static final double FRONT_RIGHT_VIRTUAL_OFFSET_RADIANS = -1.365; //-2.827 // adjust as needed so that virtual (turn) position of wheel is zero when straight
-	public static final double REAR_RIGHT_VIRTUAL_OFFSET_RADIANS = 0.398; // adjust as needed so that virtual (turn) position of wheel is zero when straight
-
 	public static final int GYRO_ORIENTATION = -1; // might be able to merge with kGyroReversed
 
 	public static final double FIELD_LENGTH_INCHES = 54*12+1; // 54ft 1in
@@ -73,23 +67,19 @@ public class SwerveDrivetrain extends SubsystemBase {
 	// Create SwerveModules
 	private final SwerveModule m_frontLeft = new SwerveModule(
 		Ports.CAN.FRONT_LEFT_DRIVING,
-		Ports.CAN.FRONT_LEFT_TURNING,
-		Ports.Analog.FRONT_LEFT_TURNING_ABSOLUTE_ENCODER);
+		Ports.CAN.FRONT_LEFT_TURNING);
 
 	private final SwerveModule m_frontRight = new SwerveModule(
 		Ports.CAN.FRONT_RIGHT_DRIVING,
-		Ports.CAN.FRONT_RIGHT_TURNING,
-		Ports.Analog.FRONT_RIGHT_TURNING_ABSOLUTE_ENCODER);
+		Ports.CAN.FRONT_RIGHT_TURNING);
 
 	private final SwerveModule m_rearLeft = new SwerveModule(
 		Ports.CAN.REAR_LEFT_DRIVING,
-		Ports.CAN.REAR_LEFT_TURNING,
-		Ports.Analog.REAR_LEFT_TURNING_ABSOLUTE_ENCODER);
+		Ports.CAN.REAR_LEFT_TURNING);
 
 	private final SwerveModule m_rearRight = new SwerveModule(
 		Ports.CAN.REAR_RIGHT_DRIVING,
-		Ports.CAN.REAR_RIGHT_TURNING,
-		Ports.Analog.REAR_RIGHT_TURNING_ABSOLUTE_ENCODER);
+		Ports.CAN.REAR_RIGHT_TURNING);
 
 	// The gyro sensor
 	private final Pigeon2 m_gyro = new Pigeon2(Ports.CAN.pigeon2); 
