@@ -77,7 +77,7 @@ public class SwerveModule {
 		m_drivingSparkMax.configure(drivingConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
 		turningConfig
-			.inverted(false)
+			.inverted(true)
             .idleMode(SwerveModuleConstants.TURNING_MOTOR_IDLE_MODE)
             .smartCurrentLimit(SwerveModuleConstants.TURNING_MOTOR_CURRENT_LIMIT_AMPS);
         turningConfig.absoluteEncoder
