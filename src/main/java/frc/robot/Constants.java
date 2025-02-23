@@ -160,5 +160,9 @@ public final class Constants {
 		public static final double TURNING_FF = 0;
 		public static final double TURNING_MIN_OUTPUT_NORMALIZED = -1;
 		public static final double TURNING_MAX_OUTPUT_NORMALIZED = 1;
+
+		public static final double MAX_VELOCITY = 0.01;
+		public static final double MAX_ACCELERATION_FACTOR = 0.01;
+		public static final double ALLOWED_ERROR = 0.5;
 	}
 }
