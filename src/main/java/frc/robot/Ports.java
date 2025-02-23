@@ -65,6 +65,7 @@ public class Ports {
 			public static final int FRONT_RIGHT_TURNING = 3;
 			public static final int REAR_RIGHT_TURNING = 5;
 
+			public static final int ARM_TURNING = 13;
 		}
 		
 		/**

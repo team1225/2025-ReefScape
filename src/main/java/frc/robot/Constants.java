@@ -146,4 +146,19 @@ public final class Constants {
 	public static final class NeoMotorConstants {
 		public static final double FREE_SPEED_RPM = 5676;
 	}
+
+	public static final class ArmConstants {
+		public static final IdleMode TURNING_MOTOR_IDLE_MODE = IdleMode.kBrake;
+		public static final int TURNING_MOTOR_CURRENT_LIMIT_AMPS = 40; // amps
+
+		public static final double TURNING_ENCODER_POSITION_FACTOR_RADIANS_PER_ROTATION = (2 * Math.PI); // radians, per rotation
+		public static final double TURNING_ENCODER_VELOCITY_FACTOR_RADIANS_PER_SECOND_PER_RPM = (2 * Math.PI) / 60.0; // radians per second, per RPM
+
+		public static final double TURNING_P = 1.0; // 1.0 might be a bit too much - reduce a bit if needed
+		public static final double TURNING_I = 0;
+		public static final double TURNING_D = 0;
+		public static final double TURNING_FF = 0;
+		public static final double TURNING_MIN_OUTPUT_NORMALIZED = -1;
+		public static final double TURNING_MAX_OUTPUT_NORMALIZED = 1;
+	}
 }
