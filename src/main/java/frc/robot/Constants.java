@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -161,8 +162,8 @@ public final class Constants {
 		public static final double TURNING_MIN_OUTPUT_NORMALIZED = -1;
 		public static final double TURNING_MAX_OUTPUT_NORMALIZED = 1;
 
-		public static final double MAX_VELOCITY = 0.01;
-		public static final double MAX_ACCELERATION_FACTOR = 0.01;
-		public static final double ALLOWED_ERROR = 0.5;
+		public static final double MAX_VELOCITY = Rotation2d.fromDegrees(10).getRadians(); //radians per second
+		public static final double MAX_ACCELERATION_FACTOR = 2; // This will get multiplied by the MAX_VELOCITY and will in up being in radians/sec/sec Good rule of thumb is to set max accel to twice the max velocity.
+		public static final double ALLOWED_ERROR = Rotation2d.fromDegrees(1).getRadians();
 	}
 }
