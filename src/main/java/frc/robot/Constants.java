@@ -148,7 +148,7 @@ public final class Constants {
 		public static final double FREE_SPEED_RPM = 5676;
 	}
 
-	public static final class ArmConstants {
+	public static final class PivotArmConstants {
 		public static final IdleMode TURNING_MOTOR_IDLE_MODE = IdleMode.kBrake;
 		public static final int TURNING_MOTOR_CURRENT_LIMIT_AMPS = 40; // amps
 
@@ -164,6 +164,45 @@ public final class Constants {
 
 		public static final double MAX_VELOCITY = Rotation2d.fromDegrees(10).getRadians(); //radians per second
 		public static final double MAX_ACCELERATION_FACTOR = 2; // This will get multiplied by the MAX_VELOCITY and will in up being in radians/sec/sec Good rule of thumb is to set max accel to twice the max velocity.
-		public static final double ALLOWED_ERROR = Rotation2d.fromDegrees(1).getRadians();
+		public static final double ALLOWED_ERROR = Rotation2d.fromDegrees(0.5).getRadians();
+
+		public static final double SOFT_LIMIT_FORWARD = Rotation2d.fromDegrees(40).getRadians();
+		public static final double SOFT_LIMIT_REVERSE = 0;
+	}
+
+	public static final class TelescopingArmConstants {
+		public static final IdleMode IDLE_MODE = IdleMode.kBrake;
+		public static final int CURRENT_LIMIT_AMPS = 20; // amps
+
+		public static final double TURNING_P = 1.0; // 1.0 might be a bit too much - reduce a bit if needed
+		public static final double TURNING_I = 0;
+		public static final double TURNING_D = 0;
+		public static final double TURNING_FF = 0;
+		public static final double TURNING_MIN_OUTPUT_NORMALIZED = -1;
+		public static final double TURNING_MAX_OUTPUT_NORMALIZED = 1;
+
+		public static final double MAX_VELOCITY = 1000;
+		public static final double MAX_ACCELERATION_FACTOR = 2000; 
+		public static final double ALLOWED_ERROR = .1;
+
+		public static final double KICK_IT_STATE = 10; //Rotations required to release the tele arm enough to kick the ball into the spinning wheels
+
+		// Soft limits for telescoping arm position (in rotations)
+		public static final double SOFT_LIMIT_FORWARD = 5.0;  // Maximum extended position
+		public static final double SOFT_LIMIT_REVERSE = 0.0;  // Minimum retracted position
+	}
+
+	public static final class CoralatorConstants {
+		public static final double INTAKE_SPEED = -0.2;
+		public static final double EJECT_SPEED = 0.2;
+		public static final int CURRENT_LIMIT_AMPS = 10;
+		public static final IdleMode MOTOR_IDLE_MODE = IdleMode.kBrake;
+	}
+
+	public static final class AlgaeBlasterConstants {
+		public static final double INTAKE_SPEED = -0.2;
+		public static final double EJECT_SPEED = 0.2;
+		public static final int CURRENT_LIMIT_AMPS = 10;
+		public static final IdleMode MOTOR_IDLE_MODE = IdleMode.kBrake;
 	}
 }

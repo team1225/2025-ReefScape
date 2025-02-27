@@ -25,12 +25,16 @@ import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.sensors.*;
 
 import frc.robot.subsystems.SwerveDrivetrain;
+import frc.robot.subsystems.TelescopingArm;
 import frc.robot.subsystems.AlgaeBlaster;
 import frc.robot.subsystems.Indicator;
-import frc.robot.commands.algae_blaster.AlgaeBlasterBlastAndReset;
+import frc.robot.commands.algae_blaster.BlastAlgae;
 import frc.robot.commands.drivetrain.*;
 import frc.robot.interfaces.ICamera;
 import frc.robot.commands.indicator.*;
+import frc.robot.commands.pivot_arm.ManuallyAdjustPivotArm;
+import frc.robot.commands.telescoping_arm.ManuallyAdjustTelescopingArm;
+import frc.robot.subsystems.PivotArm;
 // import frc.robot.commands.groups.*;
 
 
@@ -69,46 +73,6 @@ public class RobotContainer {
 	private String autonSelected;
 	private SendableChooser<String> autonChooser = new SendableChooser<>();
 
-	public static final String GAME_PIECE_NONE = "None";
-	public static final String GAME_PIECE_1_NOTE = "1 Note";
-	public static final String GAME_PIECE_2_NOTES = "2 Notes";
-	public static final String GAME_PIECE_3_NOTES = "3 Notes";
-	private String gamePieceSelected;
-	private SendableChooser<String> gamePieceChooser = new SendableChooser<>();
-	
-	public static final String START_POSITION_1 = "Starting Position 1";
-	public static final String START_POSITION_2 = "Starting Position 2";
-	public static final String START_POSITION_3 = "Starting Position 3";
-	public static final String START_POSITION_4 = "Starting Position 4";
-	public static final String START_POSITION_5 = "Starting Position 5";
-	public static final String START_POSITION_6 = "Starting Position 6";
-	private String startPosition;
-	private SendableChooser<String> startPositionChooser = new SendableChooser<>();
-
-	public static final String MAIN_TARGET_SPEAKER = "Speaker";
-	public static final String MAIN_TARGET_NOWHERE = "Nowhere";
-	private String mainTarget;
-	private SendableChooser<String> mainTargetChooser = new SendableChooser<>();
-	
-	public static final String CAMERA_OPTION_USE_ALWAYS = "Always";
-	public static final String CAMERA_OPTION_USE_OPEN_LOOP_ONLY = "Open Loop Only";
-	public static final String CAMERA_OPTION_USE_CLOSED_LOOP_ONLY = "Closed Loop Only";
-	public static final String CAMERA_OPTION_USE_NEVER = "Never";
-	private String cameraOption;
-	private SendableChooser<String> cameraOptionChooser = new SendableChooser<>();
-	
-	public static final String SONAR_OPTION_USE_ALWAYS = "Always";
-	public static final String SONAR_OPTION_USE_RELEASE_ONLY = "Release Only";
-	public static final String SONAR_OPTION_USE_GRASP_ONLY = "Grasp Only";
-	public static final String SONAR_OPTION_USE_NEVER = "Never";
-	private String sonarOption;
-	private SendableChooser<String> sonarOptionChooser = new SendableChooser<>();
-	
-	public static final String CLAW_OPTION_RELEASE = "Release";
-	public static final String CLAW_OPTION_DONT_RELEASE = "Don't Release"; 
-	private String releaseSelected;
-	private SendableChooser<String> releaseChooser = new SendableChooser<>();
-
 	public static final String AUTON_OPTION_JUST_SHOOT_NOTE = "Just Shoot Note";
 	public static final String AUTON_OPTION_LEAVE_COMMUNITY = "Leave Community";
 	public static final String AUTON_OPTION_PICKUP_NOTE_AT_MIDLINE = "Pickup Note at Midline";
@@ -128,105 +92,25 @@ public class RobotContainer {
 	// motorized devices
 
 	private final SwerveDrivetrain drivetrain = new SwerveDrivetrain();
-
-	/*private final WPI_TalonSRX drawer_master = new WPI_TalonSRX(Ports.CAN.DRAWER);
-
-	private final Drawer drawer = new Drawer(drawer_master);*/
-
-	// private final WPI_TalonFX elevator_master = new WPI_TalonFX(Ports.CAN.ELEVATOR_MASTER);
-	// private final WPI_TalonFX elevator_follower = new WPI_TalonFX(Ports.CAN.ELEVATOR_FOLLOWER);
-
-	// private final /*I*/Elevator elevator = new Elevator(elevator_master, elevator_follower);
-
-	// private final WPI_TalonFX neck_master = new WPI_TalonFX(Ports.CAN.NECK_MASTER);
-	// private final WPI_TalonFX neck_follower = new WPI_TalonFX(Ports.CAN.NECK_FOLLOWER);
-	
-	// private final /*I*/Neck neck = new Neck(neck_master, neck_follower);
-
-	//private final CANSparkMax roller_master = new CANSparkMax(Ports.CAN.ROLLER, MotorType.kBrushless);
-	// private final WPI_TalonSRX roller_master = new WPI_TalonSRX(Ports.CAN.ROLLER_MASTER);
-	// private final WPI_TalonSRX roller_follower = new WPI_TalonSRX(Ports.CAN.ROLLER_FOLLOWER);
-
-	// private final /*I*/Roller roller = new Roller(roller_master, roller_follower);
-
-	//private final CANSparkMax shooter_master = new CANSparkMax(Ports.CAN.SHOOTER_MASTER, MotorType.kBrushless);
-	//private final CANSparkMax shooter_follower = new CANSparkMax(Ports.CAN.SHOOTER_FOLLOWER, MotorType.kBrushless);
-
-	//private final /*I*/SimpleShooter shooter = new SimpleShooter(shooter_master, shooter_follower);
-
-	// private final WPI_TalonFX shooter_master = new WPI_TalonFX(Ports.CAN.SHOOTER_MASTER);
-	
-	// private final /*I*/Shooter shooter = new Shooter(shooter_master);
-
 	private final AlgaeBlaster algaeBlaster = new AlgaeBlaster();
+	private final TelescopingArm telescopingArm = new TelescopingArm();
+	private final PivotArm pivotArm = new PivotArm();
 
 	// misc
 
 	private final Field2d field = new Field2d(); //  a representation of the field
-
 	private final Indicator indicator = new Indicator(apriltag_camera, object_detection_camera);
 
 	// The driver's and copilot's joystick(s) and controller(s)
 
-	// /*CommandJoystick joyLeft = new CommandJoystick(Ports.USB.LEFT_JOYSTICK);
-	CommandJoystick joyRight = new CommandJoystick(Ports.USB.RIGHT_JOYSTICK);
-	CommandJoystick joyMain = new CommandJoystick(Ports.USB.MAIN_JOYSTICK);
-	// CommandXboxController copilotGamepad = new CommandXboxController(Ports.USB.COPILOT_GAMEPAD);
-	
+	CommandXboxController driverController = new CommandXboxController(Ports.USB.RIGHT_JOYSTICK);
+	CommandXboxController coDriverController = new CommandXboxController(Ports.USB.MAIN_JOYSTICK);
+	CommandXboxController characterizationController = new CommandXboxController(Ports.USB.CHARACTERIZATION_JOYSTICK);
 
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
 	 */
 	public RobotContainer() {
-
-		// choosers (for auton)
-		
-		autonChooser.setDefaultOption("Do Nothing", AUTON_DO_NOTHING);
-		autonChooser.addOption("My Auto", AUTON_CUSTOM);
-		autonChooser.addOption("Sample Swerve", AUTON_SAMPLE_SWERVE);
-		autonChooser.addOption("Sample Move Forward", AUTON_SAMPLE_MOVE_FORWARD);
-		autonChooser.addOption("Sample Move In Reverse", AUTON_SAMPLE_MOVE_IN_REVERSE);
-		autonChooser.addOption("Sample Move In Gamma Shape", AUTON_SAMPLE_MOVE_IN_GAMMA_SHAPE);
-		autonChooser.addOption("Sample Move In L Shape In Reverse", AUTON_SAMPLE_MOVE_IN_L_SHAPE_IN_REVERSE);
-		autonChooser.addOption("Test Hardcoded Move 1", AUTON_TEST_HARDCODED_MOVE_1);
-		autonChooser.addOption("Test Hardcoded Move 2", AUTON_TEST_HARDCODED_MOVE_2);
-		autonChooser.addOption("Test Trajectory Generation", AUTON_TEST_TRAJECTORY_GENERATION);
-		SmartDashboard.putData("Auto choices", autonChooser);
-
-		gamePieceChooser.setDefaultOption("None", GAME_PIECE_NONE);
-		gamePieceChooser.addOption("1 Note", GAME_PIECE_1_NOTE);
-		gamePieceChooser.addOption("2 Notes", GAME_PIECE_2_NOTES);
-		gamePieceChooser.addOption("3 Notes", GAME_PIECE_3_NOTES);
-		SmartDashboard.putData("Game piece choices", gamePieceChooser);
-
-		startPositionChooser.setDefaultOption("Starting Position 1", START_POSITION_1);
-		startPositionChooser.addOption("Starting Position 2", START_POSITION_2);
-		startPositionChooser.addOption("Starting Position 3", START_POSITION_3);
-		startPositionChooser.addOption("Starting Position 4", START_POSITION_4);
-		startPositionChooser.addOption("Starting Position 5", START_POSITION_5);
-		startPositionChooser.addOption("Starting Position 6", START_POSITION_6);
-		SmartDashboard.putData("Start positions", startPositionChooser);
-
-		mainTargetChooser.setDefaultOption("To Nowhere", MAIN_TARGET_NOWHERE);
-		mainTargetChooser.addOption("Speaker", MAIN_TARGET_SPEAKER);
-		SmartDashboard.putData("Main targets", mainTargetChooser);
-		
-		cameraOptionChooser.setDefaultOption("Always", CAMERA_OPTION_USE_ALWAYS);
-		cameraOptionChooser.addOption("Open Loop Only", CAMERA_OPTION_USE_OPEN_LOOP_ONLY);
-		cameraOptionChooser.addOption("Closed Loop Only", CAMERA_OPTION_USE_CLOSED_LOOP_ONLY);
-		cameraOptionChooser.addOption("Never", CAMERA_OPTION_USE_NEVER);		
-		SmartDashboard.putData("Camera options", cameraOptionChooser);
-		
-		sonarOptionChooser.setDefaultOption("Always", SONAR_OPTION_USE_ALWAYS);
-		sonarOptionChooser.addOption("Release Only", SONAR_OPTION_USE_RELEASE_ONLY);
-		sonarOptionChooser.addOption("Grasp Only", SONAR_OPTION_USE_GRASP_ONLY);		
-		sonarOptionChooser.addOption("Never", SONAR_OPTION_USE_NEVER);
-		SmartDashboard.putData("Sonar options", sonarOptionChooser);
-		
-		releaseChooser.setDefaultOption("Release", CLAW_OPTION_RELEASE);
-		releaseChooser.addOption("Don't release", CLAW_OPTION_DONT_RELEASE);
-		SmartDashboard.putData("Release options", releaseChooser);
-
 		autonOptionChooser.setDefaultOption("Just Shoot Note", AUTON_OPTION_JUST_SHOOT_NOTE);
 		autonOptionChooser.addOption("Leave Community", AUTON_OPTION_LEAVE_COMMUNITY);
 		autonOptionChooser.addOption("Pickup Note At Midline", AUTON_OPTION_PICKUP_NOTE_AT_MIDLINE);
@@ -244,16 +128,11 @@ public class RobotContainer {
 		// Configure default commands
 
 		drivetrain.setDefaultCommand(
-			// The left stick controls translation of the robot.
-			// Turning is controlled by the X axis of the right stick.
-			// We are inverting LeftY because Xbox controllers return negative values when we push forward.
-			// We are inverting LeftX because we want a positive value when we pull to the left. Xbox controllers return positive values when you pull to the right by default.
-			// We are also inverting RightX because we want a positive value when we pull to the left (CCW is positive in mathematics).
 			new RunCommand(
 				() -> drivetrain.drive(
-					-MathUtil.applyDeadband(joyMain.getY(), JOYSTICK_AXIS_THRESHOLD),
-					-MathUtil.applyDeadband(joyMain.getX(), JOYSTICK_AXIS_THRESHOLD),
-					-MathUtil.applyDeadband(joyMain.getRawAxis(4), JOYSTICK_AXIS_THRESHOLD),
+					-MathUtil.applyDeadband(driverController.getLeftY(), GAMEPAD_AXIS_THRESHOLD),
+					-MathUtil.applyDeadband(driverController.getLeftX(), GAMEPAD_AXIS_THRESHOLD),
+					-MathUtil.applyDeadband(driverController.getRightX(), GAMEPAD_AXIS_THRESHOLD),
 					true, true),
 				drivetrain));
 
@@ -274,160 +153,52 @@ public class RobotContainer {
 	 */
 	private void configureButtonBindings() {
 
-		// driver (joystick)
+		// driver controls
+		driverController.a()
+			.onTrue(pivotArm.setGoalDegreesCommand(0));
 
-		joyMain.povUp()
-			.onTrue(new DrivetrainZeroHeading(drivetrain));	
-
-		joyMain.povDown()
-			.onTrue(new DrivetrainOppositeHeading(drivetrain));	
-
-		joyMain.povLeft()
-			.onTrue(new DrivetrainLeftSubHeading(drivetrain));	
-
-		joyMain.povRight()
-			.onTrue(new DrivetrainRightSubHeading(drivetrain));
-
-		joyMain.button(1)
-			.whileTrue(new DrivetrainDriveUsingAprilTagCamera(drivetrain, apriltag_camera, getMainJoystick()));
-
-		joyMain.button(2)
-			//.whileTrue(new DrivetrainSetXFormation(drivetrain));	
-			.whileTrue(new DrivetrainDriveUsingObjectDetectionCamera(drivetrain, object_detection_camera, getMainJoystick()));
+		driverController.b()
+			.onTrue(pivotArm.setGoalDegreesCommand(30));
 			
-		joyMain.button(3)
-			.onTrue(new AlgaeBlasterBlastAndReset(algaeBlaster));
-			
-		// joyMain.button(4)
-		// 	.onTrue(new MoveInGammaShape(drivetrain, this, 3));
+		driverController.x()
+			.onTrue(new BlastAlgae(algaeBlaster, telescopingArm));
 
-		// joyMain.button(5)
-		// 	.onTrue(new MoveForward(drivetrain, this, 3));
-			//.onTrue(new DrivetrainTurnAngleUsingPidController(drivetrain, -90));
-			//.onTrue(new MoveInUShapeInReverse(drivetrain, this, 1));
-
-		joyMain.button(6)
-			//.onTrue(new MoveInReverse(drivetrain, this, 3));
-			//.onTrue(new DrivetrainTurnAngleUsingPidController(drivetrain, 90));
-			//.onTrue(new DrivetrainTurnUsingCamera(drivetrain, object_detection_camera));
-			.whileTrue(new DrivetrainSetXFormation(drivetrain));
-
-		// joyMain.button(7)
-		// 	.whileTrue(new RollerJoystickControl(roller, drivetrain, getMainJoystick()));
-		
-		// joyMain.button(8)
-		// 	.whileTrue(new NeckJoystickControl(neck, drivetrain, getMainJoystick()));
-		
-		// joyMain.button(9)
-
-		// 	.whileTrue(new ShooterJoystickControl(shooter, drivetrain, getMainJoystick()));
-		
-		// joyMain.button(10)
-		// 	.whileTrue(new ElevatorJoystickControl(elevator, drivetrain, getMainJoystick()));
-
-		joyMain.button(11)
-			//.onTrue(new DrivetrainZeroHeading(drivetrain));
+		driverController.rightBumper()
 			.onTrue(new DrivetrainTurnUsingCamera(drivetrain, apriltag_camera));
-		
-		joyMain.button(12)
-			//.whileTrue(new DrivetrainSetXFormation(drivetrain));
+			
+		driverController.leftStick()
+			.onTrue(new DrivetrainSetXFormation(drivetrain));
+
+		driverController.rightStick()
 			.onTrue(new DrivetrainTurnUsingCamera(drivetrain, object_detection_camera));
 			
-				
-		// copilot (gamepad)
-		
-		// copilotGamepad.a()
-		// 	.whileTrue(new RollerRelease(roller));
-		
-		// copilotGamepad.b()
-		// // 	.whileTrue(new RollerRoll(roller));
 
-		// copilotGamepad.x()
-		// 	.onTrue(new AlgaeBlasterBlastAndReset(algaeBlaster));
+		// co-driver controls
+		coDriverController.rightStick()
+			.whileTrue(new ManuallyAdjustTelescopingArm(telescopingArm, coDriverController));
 
-		// copilotGamepad.y()
-		// 	//.whileTrue(new RollerRollLowRpm(roller));
-			
-		// copilotGamepad.back()
-		// 	//.onTrue(new DrivetrainAndGyroReset(drivetrain));
-		// 	.onTrue(new AlmostEverythingStop(elevator, neck, roller, shooter));
+		coDriverController.leftStick()
+			.whileTrue(new ManuallyAdjustPivotArm(pivotArm, coDriverController));
 
-		// copilotGamepad.start()
-		// 	//.onTrue(new AlmostEverythingStop(elevator, neck, roller));
-		// 	.onTrue(new NeckHome(neck));
+		coDriverController.a()
+			.onTrue(telescopingArm.setPositionCommand(0));
 
-		// copilotGamepad.leftTrigger()
-		// 	//.onTrue(new DrawerRetractWithStallDetection(drawer));
-		// 	//.whileTrue(new ShooterTake(shooter));
-		// 	.whileTrue(new ShooterShootHigh(shooter));
+		coDriverController.b()
+			.onTrue(telescopingArm.setPositionCommand(30));
 
-		// copilotGamepad.rightTrigger()
-		// 	//.onTrue(new DrawerExtendWithStallDetection(drawer));
-		// 	.whileTrue(new RollerRoll(roller));
+	
+		// Characterization commands on fourth joystick POV
+		characterizationController.povUp()
+			.onTrue(pivotArm.quasistaticForward());
 
-		// copilotGamepad.povDown()
-		// 	//.onTrue(new ElevatorMoveDownWithStallDetection(elevator));
-		// 	.onTrue(new NeckMoveDownWithStallDetection(neck));
+		characterizationController.povDown()
+			.onTrue(pivotArm.quasistaticBackward());
 
-		// copilotGamepad.povLeft()
-		// 	//.onTrue(new ElevatorMoveMidwayWithStallDetection(elevator));
-		// 	.onTrue(new NeckMoveSubWithStallDetection(neck));
+		characterizationController.povRight()
+			.onTrue(pivotArm.dynamicForward());
 
-		// copilotGamepad.povRight()
-		// 	//.onTrue(new ElevatorMoveMidwayWithStallDetection(elevator));
-		// 	//.onTrue(new NeckMovePodiumWithStallDetection(neck));
-		// 	.onTrue(new NeckMoveFeedNoteWithStallDetection(neck));
-
-		// copilotGamepad.povUp()
-		// 	//.onTrue(new ElevatorMoveUpWithStallDetection(elevator));
-		// 	.onTrue(new NeckMoveUpWithStallDetection(neck));
-
-
-		// copilotGamepad.leftBumper()
-		// 	//.onTrue(new NeckMoveUpWithStallDetection(neck));
-		// 	//.onTrue(new NeckMoveUpWithStallDetection(neck));
-		// 	.whileTrue(new NeckMoveUsingCamera(neck, apriltag_camera));
-
-		// copilotGamepad.rightBumper()
-		// 	//.onTrue(new NeckMoveDownWithStallDetection(neck));
-		// 	.onTrue(new NeckMoveAcrossFieldWithStallDetection(neck));
-
-
-		// copilotGamepad.leftStick()
-		// 	.onTrue(new RollerTimedRoll(roller, 3));
-		// 	//.onTrue(new GamepadRumble(getCopilotGamepad(),false));			
-
-		// copilotGamepad.rightStick()
-		// 	.onTrue(new RollerTimedRelease(roller, 3));
-		// 	//.onTrue(new GamepadRumble(getCopilotGamepad(),false));
-
-
-		// copilotGamepad.axisGreaterThan(LY,GAMEPAD_AXIS_THRESHOLD)
-		// 	.whileTrue(new ElevatorGamepadControl(elevator, getCopilotGamepad()));
-
-		// copilotGamepad.axisLessThan(LY,-GAMEPAD_AXIS_THRESHOLD)
-		// 	.whileTrue(new ElevatorGamepadControl(elevator, getCopilotGamepad()));
-
-		/*copilotGamepad.axisGreaterThan(LX,GAMEPAD_AXIS_THRESHOLD)
-			.whileTrue();
-
-		copilotGamepad.axisLessThan(LX,-GAMEPAD_AXIS_THRESHOLD)
-			.whileTrue();*/
-
-		// copilotGamepad.axisGreaterThan(RY,GAMEPAD_AXIS_THRESHOLD)
-		// 	.whileTrue(new NeckGamepadControl(neck, getCopilotGamepad()));
-
-		// copilotGamepad.axisLessThan(RY,-GAMEPAD_AXIS_THRESHOLD)
-		// 	.whileTrue(new NeckGamepadControl(neck, getCopilotGamepad()));
-
-		// copilotGamepad.axisGreaterThan(RX,GAMEPAD_AXIS_THRESHOLD);
-			//.whileTrue(new DrawerGamepadControl(drawer, getCopilotGamepad()));
-			//.onTrue(new NeckMovePodiumWithStallDetection(neck));
-
-		// copilotGamepad.axisLessThan(RX,-GAMEPAD_AXIS_THRESHOLD);
-			//.whileTrue(new DrawerGamepadControl(drawer, getCopilotGamepad()));
-			//.onTrue(new NeckMoveSubWithStallDetection(neck));
-			
+		characterizationController.povLeft()
+			.onTrue(pivotArm.dynamicBackward());
 	}
 
 	/**
@@ -438,24 +209,6 @@ public class RobotContainer {
 	public Command getAutonomousCommand() {
 		autonSelected = autonChooser.getSelected();
 		System.out.println("Auton selected: " + autonSelected);	
-
-		gamePieceSelected = gamePieceChooser.getSelected();
-		System.out.println("Game piece selected: " + gamePieceSelected);		
-
-		startPosition = startPositionChooser.getSelected();
-		System.out.println("Start position: " + startPosition);
-
-		mainTarget = mainTargetChooser.getSelected();
-		System.out.println("Main target: " + mainTarget);
-		
-		cameraOption = cameraOptionChooser.getSelected();
-		System.out.println("Camera option: " + cameraOption);
-		
-		sonarOption = sonarOptionChooser.getSelected();
-		System.out.println("Sonar option: " + sonarOption);
-		
-		releaseSelected = releaseChooser.getSelected();
-		System.out.println("Release chosen: " + releaseSelected);
 
 		autonOption = autonOptionChooser.getSelected();
 		System.out.println("Auton option: " + autonOption);
@@ -550,49 +303,9 @@ public class RobotContainer {
 		return drivetrain;
 	}
 
-	public Joystick getMainJoystick()
-	{
-		return joyMain.getHID();
-	}
-
-	// public XboxController getCopilotGamepad()
-	// {
-		// return copilotGamepad.getHID();
-	// }
-
 	public SendableChooser<String> getAutonChooser()
 	{
 		return autonChooser;
-	}
-	
-	public SendableChooser<String> getGamePieceChooser()
-	{
-		return gamePieceChooser;
-	}
-
-	public SendableChooser<String> getStartPositionChooser()
-	{
-		return startPositionChooser;
-	}
-
-	public SendableChooser<String> getMainTargetChooser()
-	{
-		return mainTargetChooser;
-	}
-
-	public SendableChooser<String> getCameraOptionChooser()
-	{
-		return cameraOptionChooser;
-	}
-
-	public SendableChooser<String> getSonarOptionChooser()
-	{
-		return sonarOptionChooser;
-	}
-
-	public SendableChooser<String> getReleaseChooser()
-	{
-		return releaseChooser;
 	}
 
 	public SendableChooser<String> getAutonOptionChooser()

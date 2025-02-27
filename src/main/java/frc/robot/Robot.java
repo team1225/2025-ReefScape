@@ -157,22 +157,12 @@ public class Robot extends TimedRobot {
 
 
 		SmartDashboard.putNumber("AccelZ", m_robotContainer.getAccelerometer().getAccelZ());
-		//SmartDashboard.putNumber("FilteredAccelZ", m_robotContainer.getAccelerometer().getFilteredAccelZ());
 		SmartDashboard.putNumber("Tilt", m_robotContainer.getAccelerometer().getTilt());
-		//SmartDashboard.putNumber("FilteredTilt", m_robotContainer.getAccelerometer().getFilteredTilt());
 		SmartDashboard.putNumber("AccurateTilt", m_robotContainer.getAccelerometer().getAccurateTilt());
 		SmartDashboard.putBoolean("isFlat", m_robotContainer.getAccelerometer().isFlat());
 		SmartDashboard.putBoolean("isSuperFlat", m_robotContainer.getAccelerometer().isSuperFlat());
 		SmartDashboard.putNumber("AccuratePitch", m_robotContainer.getAccelerometer().getAccuratePitch());
 		SmartDashboard.putNumber("AccurateRoll", m_robotContainer.getAccelerometer().getAccurateRoll());
-		//SmartDashboard.putNumber("FilteredAccurateRoll", m_robotContainer.getAccelerometer().getFilteredAccurateRoll());
-
-		/*SmartDashboard.putNumber("Distance to Target", m_robotContainer.getCamera().getDistanceToCompositeTargetUsingVerticalFov());
-		SmartDashboard.putNumber("Angle to Target", m_robotContainer.getCamera().getAngleToTurnToCompositeTarget());
-		SmartDashboard.putNumber("Distance to Target Using Horizontal FOV", m_robotContainer.getCamera().getDistanceToCompositeTargetUsingHorizontalFov());
-		SmartDashboard.putNumber("Filtered Distance to Target", m_robotContainer.getCamera().getFilteredDistanceToCompositeTarget());
-		SmartDashboard.putNumber("Vertical Offset to Target", m_robotContainer.getCamera().getVerticalOffsetToCompositeTarget());
-		SmartDashboard.putNumber("Filtered Vertical Offset to Target", m_robotContainer.getCamera().getFilteredVerticalOffsetToCompositeTarget());*/
 
 		SmartDashboard.putNumber("Distance to Target", m_robotContainer.getObjectDetectionCamera().getDistanceToTarget());
 		SmartDashboard.putNumber("Angle to Target", m_robotContainer.getObjectDetectionCamera().getAngleToTurnToTarget());
@@ -181,12 +171,6 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Angle to AprilTag", m_robotContainer.getAprilTagCamera().getAngleToTurnToTarget());
 
 		SmartDashboard.putString("Auton selected", m_robotContainer.getAutonChooser().getSelected());	
-		SmartDashboard.putString("Game piece", m_robotContainer.getGamePieceChooser().getSelected());
-		SmartDashboard.putString("Start position", m_robotContainer.getStartPositionChooser().getSelected());
-		SmartDashboard.putString("Main target", m_robotContainer.getMainTargetChooser().getSelected());
-		SmartDashboard.putString("Camera option", m_robotContainer.getCameraOptionChooser().getSelected());
-		SmartDashboard.putString("Sonar option", m_robotContainer.getSonarOptionChooser().getSelected());
-		SmartDashboard.putString("Release chosen", m_robotContainer.getReleaseChooser().getSelected());
 		SmartDashboard.putString("Auton option", m_robotContainer.getAutonOptionChooser().getSelected());
 
 		Optional<Alliance> alliance = DriverStation.getAlliance();

@@ -29,17 +29,12 @@ public class Ports {
 		 * Analog ports
 		 */
 		public static class Analog {
-			public static final int FRONT_RIGHT_TURNING_ABSOLUTE_ENCODER = 0;
-			public static final int REAR_RIGHT_TURNING_ABSOLUTE_ENCODER = 1;
-			public static final int REAR_LEFT_TURNING_ABSOLUTE_ENCODER = 2;
-			public static final int FRONT_LEFT_TURNING_ABSOLUTE_ENCODER = 3;			
 		}
 		
 		/**
 		 * Relays
 		 */
 		public static class Relay {
-			public static final int COMPRESSOR_RELAY = 0;
 		}
 		
 		/**
@@ -65,7 +60,13 @@ public class Ports {
 			public static final int FRONT_RIGHT_TURNING = 9;
 			public static final int REAR_RIGHT_TURNING = 3;
 
-			public static final int ARM_TURNING = 13;
+			public static final int PIVOT_ARM = 13;
+			public static final int TELESCOPING_ARM = 14;
+
+			public static final int CORALATOR = 15;
+
+			public static final int ALGAE_BLASTER_LEADER = 16;
+			public static final int ALGAE_BLASTER_FOLLOWER = 17;
 		}
 		
 		/**
@@ -76,14 +77,13 @@ public class Ports {
 			public static final int LEFT_JOYSTICK = 2;
 			public static final int COPILOT_GAMEPAD = 1;
 			public static final int MAIN_JOYSTICK = 0;
+			public static final int CHARACTERIZATION_JOYSTICK = 3;
 		}
 		
 		/**
 		 * PCM ports
 		 */
 		public static class PCM {
-			public static final int ALGAE_BLASTER_BLAST = 0;
-			public static final int ALGAE_BLASTER_RESET = 1;
 		}
 
 		/**
