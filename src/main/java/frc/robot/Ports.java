@@ -42,7 +42,7 @@ public class Ports {
 		 */
 		public static class CAN {
 			// Pneumatic Control Module
-			public static final int PCM = 12;
+			// public static final int PCM = 12;
 			//2025 Robot
 			public static final int RIO = 0;
 			public static final int PDP = 1;	

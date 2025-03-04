@@ -155,7 +155,7 @@ public class Robot extends TimedRobot {
 		m_robotContainer.getField().setRobotPose(m_robotContainer.getDrivetrain().getPose());
 		SmartDashboard.putNumber(   "Heading",             m_robotContainer.getDrivetrain().getHeading());
 
-
+		/*
 		SmartDashboard.putNumber("AccelZ", m_robotContainer.getAccelerometer().getAccelZ());
 		SmartDashboard.putNumber("Tilt", m_robotContainer.getAccelerometer().getTilt());
 		SmartDashboard.putNumber("AccurateTilt", m_robotContainer.getAccelerometer().getAccurateTilt());
@@ -176,6 +176,7 @@ public class Robot extends TimedRobot {
 		Optional<Alliance> alliance = DriverStation.getAlliance();
 		Alliance allianceColor = alliance.isPresent() ? alliance.get() : Alliance.Blue;
 		SmartDashboard.putString("Alliance color", allianceColor.toString());
+	*/
 	}
 
 	@Override

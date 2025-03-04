@@ -24,8 +24,8 @@ public class AlgaeBlaster extends SubsystemBase {
     private final SparkMaxConfig followerMotorConfig;
 
     public AlgaeBlaster() {
-        leader = new SparkMax(Ports.CAN.CORALATOR, MotorType.kBrushed);
-        follower = new SparkMax(Ports.CAN.CORALATOR, MotorType.kBrushed);
+        leader = new SparkMax(Ports.CAN.ALGAE_BLASTER_LEADER, MotorType.kBrushed);
+        follower = new SparkMax(Ports.CAN.ALGAE_BLASTER_FOLLOWER, MotorType.kBrushed); //CHANGE THIS!
 
         leaderMotorConfig = new SparkMaxConfig();
         leaderMotorConfig
@@ -40,7 +40,7 @@ public class AlgaeBlaster extends SubsystemBase {
             .idleMode(AlgaeBlasterConstants.MOTOR_IDLE_MODE)
             .smartCurrentLimit(AlgaeBlasterConstants.CURRENT_LIMIT_AMPS);
         follower.configure(followerMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    }
+    }	
 
     @Override
     public void periodic() {

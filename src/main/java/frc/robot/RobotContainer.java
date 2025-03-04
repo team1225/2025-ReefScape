@@ -92,7 +92,7 @@ public class RobotContainer {
 	// motorized devices
 
 	private final SwerveDrivetrain drivetrain = new SwerveDrivetrain();
-	private final AlgaeBlaster algaeBlaster = new AlgaeBlaster();
+	//private final AlgaeBlaster algaeBlaster = new AlgaeBlaster();
 	private final TelescopingArm telescopingArm = new TelescopingArm();
 	private final PivotArm pivotArm = new PivotArm();
 
@@ -103,8 +103,8 @@ public class RobotContainer {
 
 	// The driver's and copilot's joystick(s) and controller(s)
 
-	CommandXboxController driverController = new CommandXboxController(Ports.USB.RIGHT_JOYSTICK);
-	CommandXboxController coDriverController = new CommandXboxController(Ports.USB.MAIN_JOYSTICK);
+	CommandXboxController driverController = new CommandXboxController(Ports.USB.MAIN_JOYSTICK); //RIGHT_JOYSTICK);
+	CommandXboxController coDriverController = new CommandXboxController(Ports.USB.RIGHT_JOYSTICK); //MAIN_JOYSTICK);
 	CommandXboxController characterizationController = new CommandXboxController(Ports.USB.CHARACTERIZATION_JOYSTICK);
 
 	/**
@@ -160,8 +160,8 @@ public class RobotContainer {
 		driverController.b()
 			.onTrue(pivotArm.setGoalDegreesCommand(30));
 			
-		driverController.x()
-			.onTrue(new BlastAlgae(algaeBlaster, telescopingArm));
+		//driverController.x()
+		//	.onTrue(new BlastAlgae(algaeBlaster, telescopingArm));
 
 		driverController.rightBumper()
 			.onTrue(new DrivetrainTurnUsingCamera(drivetrain, apriltag_camera));

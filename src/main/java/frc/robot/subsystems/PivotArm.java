@@ -28,7 +28,7 @@ public class PivotArm extends SubsystemBase {
     private final SparkMax pivotMotor;
     private final SparkMaxConfig pivotMotorConfig;
     private final SparkAbsoluteEncoder pivotAbsoluteEncoder;
-    private Rotation2d pivotDesiredState;
+    private double pivotDesiredState;
     private final SparkClosedLoopController pivotClosedLoopController;
     private final SysIdRoutine sysIdRoutine;
     
@@ -43,7 +43,7 @@ public class PivotArm extends SubsystemBase {
         pivotClosedLoopController = pivotMotor.getClosedLoopController();
 
         pivotMotorConfig
-                .inverted(false)
+                .inverted(true)
                 .idleMode(PivotArmConstants.TURNING_MOTOR_IDLE_MODE)
                 .smartCurrentLimit(PivotArmConstants.TURNING_MOTOR_CURRENT_LIMIT_AMPS);
         pivotMotorConfig.absoluteEncoder
@@ -70,7 +70,7 @@ public class PivotArm extends SubsystemBase {
                 .reverseSoftLimit(PivotArmConstants.SOFT_LIMIT_REVERSE)
                 .reverseSoftLimitEnabled(true);
         pivotMotor.configure(pivotMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        pivotDesiredState = new Rotation2d(pivotAbsoluteEncoder.getPosition());
+        pivotDesiredState = getPosition();// new Rotation2d(pivotAbsoluteEncoder.getPosition());
 
         // sets the desired state to the current state so the arm does not move during
         // robot startup
@@ -88,8 +88,8 @@ public class PivotArm extends SubsystemBase {
 
     @Override
     public void periodic() {
-        atUpperLimit = getPosition().getDegrees() >= (PivotArmConstants.SOFT_LIMIT_FORWARD);
-        atLowerLimit = getPosition().getDegrees() <= (PivotArmConstants.SOFT_LIMIT_REVERSE);
+        atUpperLimit = getPosition() >= (PivotArmConstants.SOFT_LIMIT_FORWARD);
+        atLowerLimit = getPosition() <= (PivotArmConstants.SOFT_LIMIT_REVERSE);
     }
 
     // ******************************************************************************************
@@ -101,15 +101,21 @@ public class PivotArm extends SubsystemBase {
      *
      * @param desiredState Desired state with speed and angle.
      */
-    public void setDesiredState(Rotation2d desiredState) {
+    /*public void setDesiredState(Rotation2d desiredState) {
         pivotClosedLoopController.setReference(desiredState.getRadians(),
                 ControlType.kMAXMotionPositionControl,
                 ClosedLoopSlot.kSlot0);
         pivotDesiredState = Rotation2d.fromRadians(desiredState.getRadians());
-    }
+    }*/
+    public void setDesiredState(Double desiredState) {
+        pivotClosedLoopController.setReference(desiredState, 
+        ControlType.kMAXMotionPositionControl,
+        ClosedLoopSlot.kSlot0);
+      this.pivotDesiredState = desiredState;
+  }
 
     public void setGoalDegrees(double targetDegrees) {
-        setDesiredState(Rotation2d.fromDegrees(targetDegrees));
+        setDesiredState(Rotation2d.fromDegrees(targetDegrees).getRadians());
     }
 
     public void setVoltage(double voltage) {
@@ -138,12 +144,12 @@ public class PivotArm extends SubsystemBase {
         return pivotAbsoluteEncoder;
     }
 
-    public Rotation2d getDesiredState() {
+    public double getDesiredState() { //Rotation2d getDesiredState() {
         return pivotDesiredState;
     }
 
-    public Rotation2d getPosition() {
-        return new Rotation2d(pivotAbsoluteEncoder.getPosition());
+    public double getPosition() {// Rotation2d getPosition() {
+        return pivotAbsoluteEncoder.getPosition();
     }
 
     public boolean onPlusSoftwareLimit() {
