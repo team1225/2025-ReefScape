@@ -21,7 +21,7 @@ public class RaiseArm extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_arm.setDesiredState(Rotation2d.fromDegrees(15).getRadians());
+    m_arm.setDesiredState(Rotation2d.fromDegrees(15));
   }
 
   // Called every time the scheduler runs while the command is scheduled.

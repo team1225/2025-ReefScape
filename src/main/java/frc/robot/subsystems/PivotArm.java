@@ -32,7 +32,7 @@ public class PivotArm extends SubsystemBase {
     private final SparkMax pivotMotor;
     private final SparkMaxConfig pivotMotorConfig;
     private final SparkAbsoluteEncoder pivotAbsoluteEncoder;
-    private double pivotDesiredState;
+    private Rotation2d pivotDesiredState;
     private final SparkClosedLoopController pivotClosedLoopController;
     private final SysIdRoutine sysIdRoutine;
     
@@ -81,7 +81,7 @@ public class PivotArm extends SubsystemBase {
                 .reverseSoftLimit(PivotArmConstants.SOFT_LIMIT_REVERSE)
                 .reverseSoftLimitEnabled(true);
         pivotMotor.configure(pivotMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        pivotDesiredState = getPosition();// new Rotation2d(pivotAbsoluteEncoder.getPosition());
+        pivotDesiredState = new Rotation2d(pivotAbsoluteEncoder.getPosition());
 
         // sets the desired state to the current state so the arm does not move during
         // robot startup
@@ -119,21 +119,15 @@ public class PivotArm extends SubsystemBase {
      *
      * @param desiredState Desired state with speed and angle.
      */
-    /*public void setDesiredState(Rotation2d desiredState) {
+    public void setDesiredState(Rotation2d desiredState) {
         pivotClosedLoopController.setReference(desiredState.getRadians(),
                 ControlType.kMAXMotionPositionControl,
                 ClosedLoopSlot.kSlot0);
         pivotDesiredState = Rotation2d.fromRadians(desiredState.getRadians());
-    }*/
-    public void setDesiredState(Double desiredState) {
-        pivotClosedLoopController.setReference(desiredState, 
-        ControlType.kMAXMotionPositionControl,
-        ClosedLoopSlot.kSlot0);
-      this.pivotDesiredState = desiredState;
-  }
+    }
 
-    public void setGoalDegrees(double targetDegrees) {
-        setDesiredState(Rotation2d.fromDegrees(targetDegrees).getRadians());
+    public void setGoalDegrees(Rotation2d targetDegrees) {
+        setDesiredState(targetDegrees);
     }
 
     public void setVoltage(double voltage) {
@@ -144,7 +138,7 @@ public class PivotArm extends SubsystemBase {
     // Commands
     // ******************************************************************************************
     public Command setGoalDegreesCommand(double targetDegrees) {
-        return Commands.runOnce(() -> setGoalDegrees(targetDegrees));
+        return Commands.runOnce(() -> setDesiredState(Rotation2d.fromDegrees(targetDegrees)));
     }
 
     public Command clearStickyFaultsCommand() {
@@ -162,11 +156,11 @@ public class PivotArm extends SubsystemBase {
         return pivotAbsoluteEncoder;
     }
 
-    public double getDesiredState() { //Rotation2d getDesiredState() {
+    public Rotation2d getDesiredState() {
         return pivotDesiredState;
     }
 
-    public double getPosition() {// Rotation2d getPosition() {
+    public double getPosition() {
         return pivotAbsoluteEncoder.getPosition();
     }
 
@@ -200,8 +194,6 @@ public class PivotArm extends SubsystemBase {
     }
 
 // ******************************************************************************************
-
- 
 
     public Command quasistaticForward() {
         return sysIdRoutine.quasistatic(Direction.kForward);

@@ -4,6 +4,7 @@
 
 package frc.robot.commands.pivot_arm;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -41,7 +42,7 @@ public class ManuallyAdjustPivotArm extends Command {
       m_arm.setVoltage(0);
     }
  
-    m_arm.setDesiredState(m_arm.getPosition());
+    m_arm.setDesiredState(Rotation2d.fromRadians(m_arm.getPosition()));
   }
 
   // Called once the command ends or is interrupted.

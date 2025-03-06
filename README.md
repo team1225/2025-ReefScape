@@ -39,6 +39,29 @@ src/main/java/frc/robot/
 - [Add other major features]
 - [Add autonomous routines if developed]
 
+### Controls
+
+#### Driver Controls (Xbox Controller)
+- Left Stick: Drive robot (Y axis for forward/backward, X axis for strafing)
+- Right Stick: Rotate robot (X axis)
+- A Button: Set pivot arm to 0 degrees
+- B Button: Set pivot arm to 30 degrees
+- Right Bumper: Turn using AprilTag camera
+- Left Stick Button: Set drivetrain to X formation
+- Right Stick Button: Turn using object detection camera
+
+#### Co-Driver Controls (Xbox Controller)
+- Right Stick: Manually adjust telescoping arm
+- Left Stick: Manually adjust pivot arm
+- A Button: Set telescoping arm to position 0
+- B Button: Set telescoping arm to position 30
+
+#### Characterization Controls (Xbox Controller)
+- D-Pad Up: Pivot arm quasistatic forward
+- D-Pad Down: Pivot arm quasistatic backward  
+- D-Pad Right: Pivot arm dynamic forward
+- D-Pad Left: Pivot arm dynamic backward
+
 ## Getting Started
 
 ### Prerequisites

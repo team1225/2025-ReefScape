@@ -20,7 +20,7 @@ public class LowerArm extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_arm.setDesiredState(0.0);
+    m_arm.setDesiredState(Rotation2d.fromDegrees(0));
   }
 
   // Called every time the scheduler runs while the command is scheduled.
