@@ -15,6 +15,10 @@ import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkAbsoluteEncoder;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.units.measure.MutDistance;
+import edu.wpi.first.units.measure.MutLinearVelocity;
+import edu.wpi.first.units.measure.MutVoltage;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -34,6 +38,13 @@ public class PivotArm extends SubsystemBase {
     
     private boolean atUpperLimit;
     private boolean atLowerLimit;
+
+    // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
+    private final MutVoltage m_appliedVoltage = Volts.mutable(0);
+    // Mutable holder for unit-safe linear distance values, persisted to avoid reallocation.
+    private final MutDistance m_distance = Meters.mutable(0);
+    // Mutable holder for unit-safe linear velocity values, persisted to avoid reallocation.
+    private final MutLinearVelocity m_velocity = MetersPerSecond.mutable(0);
     
     /** Creates a new Arm. */
     public PivotArm() {
@@ -77,12 +88,19 @@ public class PivotArm extends SubsystemBase {
         setDesiredState(pivotDesiredState);
 
         sysIdRoutine = new SysIdRoutine(
-            new SysIdRoutine.Config(),
+            new SysIdRoutine.Config(null, Volts.of(4), null, null),
             new SysIdRoutine.Mechanism(
                     (volts) -> {
                         pivotMotor.setVoltage(volts.in(Volts));
                     },
-                    null,
+                    log -> {
+                        log.motor("PivotArm")
+                        .voltage(m_appliedVoltage.mut_replace(
+                            pivotMotor.get() * RobotController.getBatteryVoltage(), Volts))
+                    .linearPosition(m_distance.mut_replace(this.getPosition(), Meters))
+                    .linearVelocity(
+                        m_velocity.mut_replace(pivotAbsoluteEncoder.getVelocity(), MetersPerSecond));
+                    },
                     this));
     }
 

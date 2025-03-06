@@ -189,16 +189,16 @@ public class RobotContainer {
 	
 		// Characterization commands on fourth joystick POV
 		characterizationController.povUp()
-			.onTrue(pivotArm.quasistaticForward());
+			.whileTrue(pivotArm.quasistaticForward());
 
 		characterizationController.povDown()
-			.onTrue(pivotArm.quasistaticBackward());
+			.whileTrue(pivotArm.quasistaticBackward());
 
 		characterizationController.povRight()
-			.onTrue(pivotArm.dynamicForward());
+			.whileTrue(pivotArm.dynamicForward());
 
 		characterizationController.povLeft()
-			.onTrue(pivotArm.dynamicBackward());
+			.whileTrue(pivotArm.dynamicBackward());
 	}
 
 	/**
