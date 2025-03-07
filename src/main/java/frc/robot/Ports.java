@@ -29,17 +29,12 @@ public class Ports {
 		 * Analog ports
 		 */
 		public static class Analog {
-			public static final int FRONT_RIGHT_TURNING_ABSOLUTE_ENCODER = 0;
-			public static final int REAR_RIGHT_TURNING_ABSOLUTE_ENCODER = 1;
-			public static final int REAR_LEFT_TURNING_ABSOLUTE_ENCODER = 2;
-			public static final int FRONT_LEFT_TURNING_ABSOLUTE_ENCODER = 3;			
 		}
 		
 		/**
 		 * Relays
 		 */
 		public static class Relay {
-			public static final int COMPRESSOR_RELAY = 0;
 		}
 		
 		/**
@@ -47,7 +42,7 @@ public class Ports {
 		 */
 		public static class CAN {
 			// Pneumatic Control Module
-			public static final int PCM = 12;
+			// public static final int PCM = 12;
 			//2025 Robot
 			public static final int RIO = 0;
 			public static final int PDP = 1;	
@@ -65,25 +60,28 @@ public class Ports {
 			public static final int FRONT_RIGHT_TURNING = 9;
 			public static final int REAR_RIGHT_TURNING = 3;
 
-			public static final int ARM_TURNING = 13;
+			public static final int PIVOT_ARM = 12;
+			public static final int TELESCOPING_ARM = 13;
+
+			public static final int CORALATOR = 14;
+
+			public static final int ALGAE_BLASTER_LEADER = 15;
+			public static final int ALGAE_BLASTER_FOLLOWER = 16;
 		}
 		
 		/**
 		 * USB ports
 		 */
 		public static class USB {
-			public static final int RIGHT_JOYSTICK = 4;
-			public static final int LEFT_JOYSTICK = 2;
-			public static final int COPILOT_GAMEPAD = 1;
-			public static final int MAIN_JOYSTICK = 0;
+			public static final int DRIVER_CONTROLLER = 0;
+			public static final int CODRIVER_CONTROLLER = 1;
+			public static final int CHARACTERIZATION_CONTROLLER = 2;
 		}
 		
 		/**
 		 * PCM ports
 		 */
 		public static class PCM {
-			public static final int ALGAE_BLASTER_BLAST = 0;
-			public static final int ALGAE_BLASTER_RESET = 1;
 		}
 
 		/**

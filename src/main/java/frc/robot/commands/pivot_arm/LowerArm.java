@@ -2,17 +2,17 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.arm;
+package frc.robot.commands.pivot_arm;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.PivotArm;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class LowerArm extends Command {
-  private final Arm m_arm;
+  private final PivotArm m_arm;
   /** Creates a new LowerArm. */
-  public LowerArm(Arm arm) {
+  public LowerArm(PivotArm arm) {
     addRequirements(arm);
     m_arm = arm;
   }

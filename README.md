@@ -36,8 +36,31 @@ src/main/java/frc/robot/
 
 ### Key Features
 - Field-oriented swerve drive control
+- Autonomous Commands:
+  - Simple Drive: Drives forward at 40% power for 3 seconds
+  - Do Nothing: Robot remains stationary
 - [Add other major features]
 - [Add autonomous routines if developed]
+
+### Controls
+
+#### Driver Controls (Xbox Controller)
+- Left Stick: Drive robot (Y axis for forward/backward, X axis for strafing)
+- Right Stick: Rotate robot (X axis)
+- A Button: Set pivot arm to 0 degrees
+- B Button: Set pivot arm to 30 degrees
+
+#### Co-Driver Controls (Xbox Controller)
+- Right Stick: Manually adjust telescoping arm
+- Left Stick: Manually adjust pivot arm
+- A Button: Set telescoping arm to position 0
+- B Button: Set telescoping arm to position 30
+
+#### Characterization Controls (Xbox Controller)
+- D-Pad Up: Pivot arm quasistatic forward
+- D-Pad Down: Pivot arm quasistatic backward  
+- D-Pad Right: Pivot arm dynamic forward
+- D-Pad Left: Pivot arm dynamic backward
 
 ## Getting Started
 
@@ -63,6 +86,10 @@ git clone [repository URL]
 1. Create a new branch for your feature
 2. Make your changes
 3. Test on the robot
+   - For autonomous testing:
+     - Use SmartDashboard to select desired autonomous routine
+     - Ensure ample clear space in front of robot when testing Simple Drive
+     - Always be ready to disable the robot if needed
 4. Create a pull request
 5. Get code review
 6. Merge after approval

@@ -1,87 +1,62 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.RobotController;
+
+import frc.robot.Constants.AlgaeBlasterConstants;
+import frc.robot.Constants.CoralatorConstants;
 import frc.robot.Ports;
 
-
 /**
- * The {@code Mouth} class contains fields and methods pertaining to the function of the mouth.
+ * The {@code Mouth} class contains fields and methods pertaining to the
+ * function of the mouth.
  */
 public class AlgaeBlaster extends SubsystemBase {
-	
-	static final int WAIT_MS = 1000;
-	
-	DoubleSolenoid blastSolenoid;
-	
-	public enum Position {
-		RESET,
-		BLAST, 
-		UNKNOWN;
-	}
+    private final SparkMax leader;
+    private final SparkMax follower;
+    private final SparkMaxConfig leaderMotorConfig;
+    private final SparkMaxConfig followerMotorConfig;
 
-	public AlgaeBlaster() {
-		// the double solenoid valve will send compressed air from the tank wherever needed
-		blastSolenoid = new DoubleSolenoid(Ports.CAN.PCM, PneumaticsModuleType.REVPH, Ports.PCM.ALGAE_BLASTER_BLAST, Ports.PCM.ALGAE_BLASTER_RESET); // make sure ports are properly set in Ports.java	
-	}
-	
-	/*@Override
-	public void initDefaultCommand() {
+    public AlgaeBlaster() {
+        leader = new SparkMax(Ports.CAN.ALGAE_BLASTER_LEADER, MotorType.kBrushed);
+        follower = new SparkMax(Ports.CAN.ALGAE_BLASTER_FOLLOWER, MotorType.kBrushed); //CHANGE THIS!
 
-	}*/
+        leaderMotorConfig = new SparkMaxConfig();
+        leaderMotorConfig
+            .inverted(false)
+            .idleMode(AlgaeBlasterConstants.MOTOR_IDLE_MODE)
+            .smartCurrentLimit(AlgaeBlasterConstants.CURRENT_LIMIT_AMPS);
+        leader.configure(leaderMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-	@Override
-	public void periodic() {
-		// Put code here to be run every loop
+        followerMotorConfig = new SparkMaxConfig();
+        followerMotorConfig
+            .follow(leader, true)
+            .idleMode(AlgaeBlasterConstants.MOTOR_IDLE_MODE)
+            .smartCurrentLimit(AlgaeBlasterConstants.CURRENT_LIMIT_AMPS);
+        follower.configure(followerMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    }	
 
-	}
+    @Override
+    public void periodic() {
+        // Put code here to be run every loop
+    }
 
-	public void setPosition(Position pos) //Telling the piston to be in the selected position 
-	{
-		switch(pos)
-		{
-			case BLAST: //Telling the solenoid to have the piston go up
-			{
-				blastSolenoid.set(DoubleSolenoid.Value.kForward); // adjust direction if needed
-				break;
-			}
-			case RESET: //Telling the solenoid to have the piston go down
-			{
-				blastSolenoid.set(DoubleSolenoid.Value.kReverse); // adjust direction if needed
-				break;
-			}
-			default:
-			{
-				// do nothing
-			}
-		}
-	}
+   
+    public void Intake() {
+        leader.set(CoralatorConstants.INTAKE_SPEED * RobotController.getBatteryVoltage());
+    }
 
-	public Position getPosition() //Getting the current gear
-	{
-		DoubleSolenoid.Value value = blastSolenoid.get();
-		
-		switch(value)
-		{
-			case kReverse: //Checking if the piston is in the kReverse position (high)
-			{
-				return Position.BLAST;
-			}
-			case kForward: //Checking if the piston is in the kFoward position (low)
-			{
-				return Position.RESET;
-			}
-			default: //gear unknown
-			{
-				return Position.UNKNOWN;
-			}
-		}
-	}
+    public void Eject() {
+        leader.setVoltage(CoralatorConstants.EJECT_SPEED * RobotController.getBatteryVoltage());
+    }
 
-	public boolean isDangerous() {
-		return getPosition() == Position.RESET;
-	}
-
+    public void Stop() {
+        leader.set(0);
+    } 
 }
