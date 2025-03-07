@@ -27,6 +27,8 @@ import frc.robot.Ports;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import static edu.wpi.first.units.Units.*;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class PivotArm extends SubsystemBase {
     private final SparkMax pivotMotor;
@@ -46,18 +48,26 @@ public class PivotArm extends SubsystemBase {
     // Mutable holder for unit-safe linear velocity values, persisted to avoid reallocation.
     private final MutLinearVelocity m_velocity = MetersPerSecond.mutable(0);
     
+    private final ShuffleboardTab pidTab;
+    private double kP = PivotArmConstants.TURNING_P;
+    private double kI = PivotArmConstants.TURNING_I;
+    private double kD = PivotArmConstants.TURNING_D;
+    private double kFF = PivotArmConstants.TURNING_FF;
+
     /** Creates a new Arm. */
     public PivotArm() {
+        
         pivotMotor = new SparkMax(Ports.CAN.PIVOT_ARM, MotorType.kBrushless);
         pivotMotorConfig = new SparkMaxConfig();
         pivotAbsoluteEncoder = pivotMotor.getAbsoluteEncoder();
         pivotClosedLoopController = pivotMotor.getClosedLoopController();
 
         pivotMotorConfig
-                .inverted(true)
+                .inverted(false)
                 .idleMode(PivotArmConstants.TURNING_MOTOR_IDLE_MODE)
                 .smartCurrentLimit(PivotArmConstants.TURNING_MOTOR_CURRENT_LIMIT_AMPS);
         pivotMotorConfig.absoluteEncoder
+                .inverted(true)
                 .positionConversionFactor(PivotArmConstants.TURNING_ENCODER_POSITION_FACTOR_RADIANS_PER_ROTATION) // radians
                 .velocityConversionFactor(PivotArmConstants.TURNING_ENCODER_VELOCITY_FACTOR_RADIANS_PER_SECOND_PER_RPM); // radians per second
         pivotMotorConfig.closedLoop
@@ -79,7 +89,7 @@ public class PivotArm extends SubsystemBase {
                 .forwardSoftLimit(PivotArmConstants.SOFT_LIMIT_FORWARD)
                 .forwardSoftLimitEnabled(true)
                 .reverseSoftLimit(PivotArmConstants.SOFT_LIMIT_REVERSE)
-                .reverseSoftLimitEnabled(true);
+                .reverseSoftLimitEnabled(false);
         pivotMotor.configure(pivotMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         pivotDesiredState = new Rotation2d(pivotAbsoluteEncoder.getPosition());
 
@@ -88,7 +98,7 @@ public class PivotArm extends SubsystemBase {
         setDesiredState(pivotDesiredState);
 
         sysIdRoutine = new SysIdRoutine(
-            new SysIdRoutine.Config(null, Volts.of(4), null, null),
+            new SysIdRoutine.Config(),
             new SysIdRoutine.Mechanism(
                     (volts) -> {
                         pivotMotor.setVoltage(volts.in(Volts));
@@ -102,12 +112,49 @@ public class PivotArm extends SubsystemBase {
                         m_velocity.mut_replace(pivotAbsoluteEncoder.getVelocity(), MetersPerSecond));
                     },
                     this));
+
+        // Create Shuffleboard tab for PID tuning
+        pidTab = Shuffleboard.getTab("Pivot Arm PID");
+        pidTab.addNumber("Current Position (rad)", this::getPosition);
+        pidTab.addNumber("Target Position (rad)", () -> getDesiredState().getRadians());
+        pidTab.addNumber("Position Error (rad)", () -> getDesiredState().getRadians() - getPosition());
+        
+        // Add PID coefficients to Shuffleboard
+        pidTab.add("P Gain", kP);
+        pidTab.add("I Gain", kI);
+        pidTab.add("D Gain", kD);
+        pidTab.add("Feed Forward", kFF);
     }
 
     @Override
     public void periodic() {
         atUpperLimit = getPosition() >= (PivotArmConstants.SOFT_LIMIT_FORWARD);
         atLowerLimit = getPosition() <= (PivotArmConstants.SOFT_LIMIT_REVERSE);
+        
+        // // Update PID values from Shuffleboard
+        // double p = pidTab.getLayout("P Gain").get.getEntry("value").getDouble(kP);
+        // double i = pidTab.getLayout("I Gain").getEntry("value").getDouble(kI);
+        // double d = pidTab.getLayout("D Gain").getEntry("value").getDouble(kD);
+        // double ff = pidTab.getLayout("Feed Forward").getEntry("value").getDouble(kFF);
+
+        // // Only update if values have changed
+        // if (p != kP || i != kI || d != kD || ff != kFF) {
+        //     kP = p;
+        //     kI = i;
+        //     kD = d;
+        //     kFF = ff;
+        //     updatePIDValues();
+        // }
+    }
+
+    /**
+     * Updates the PID values on the motor controller
+     */
+    private void updatePIDValues() {
+        pivotMotorConfig.closedLoop
+            .pid(kP, kI, kD)
+            .velocityFF(kFF);
+        pivotMotor.configure(pivotMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     // ******************************************************************************************
@@ -120,10 +167,13 @@ public class PivotArm extends SubsystemBase {
      * @param desiredState Desired state with speed and angle.
      */
     public void setDesiredState(Rotation2d desiredState) {
+        if (desiredState.getRadians() > 6.00) {
+            desiredState = Rotation2d.fromRadians(0);
+        }
         pivotClosedLoopController.setReference(desiredState.getRadians(),
                 ControlType.kMAXMotionPositionControl,
                 ClosedLoopSlot.kSlot0);
-        pivotDesiredState = Rotation2d.fromRadians(desiredState.getRadians());
+        pivotDesiredState = desiredState;
     }
 
     public void setGoalDegrees(Rotation2d targetDegrees) {
@@ -131,7 +181,7 @@ public class PivotArm extends SubsystemBase {
     }
 
     public void setVoltage(double voltage) {
-        pivotMotor.setVoltage(voltage);
+        pivotMotor.set(voltage);
     }
 
     // ******************************************************************************************

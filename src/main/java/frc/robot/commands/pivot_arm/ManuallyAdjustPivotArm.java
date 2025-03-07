@@ -30,19 +30,20 @@ public class ManuallyAdjustPivotArm extends Command {
   @Override
   public void execute() {
    
-    double yval = -m_controller.getLeftY() / 4; // Left stick Y axis
+    double yval = m_controller.getLeftY(); // Left stick Y axis
    
-    if (yval > 0 && !m_arm.isAtUpperLimit() || yval < 0 && !m_arm.isAtLowerLimit()) {
+    // if (yval > 0 && !m_arm.isAtUpperLimit() || yval < 0 && !m_arm.isAtLowerLimit()) {
 
-      double appliedVolts = yval * RobotController.getBatteryVoltage();
+    //   double appliedVolts = yval * RobotController.getBatteryVoltage();
 
-      m_arm.setVoltage(appliedVolts);
+    //   m_arm.setVoltage(yval);
 
-    } else {
-      m_arm.setVoltage(0);
-    }
+    // } else {
+    //   m_arm.setVoltage(0);
+    // }
  
-    m_arm.setDesiredState(Rotation2d.fromRadians(m_arm.getPosition()));
+
+    m_arm.setDesiredState(Rotation2d.fromRadians(m_arm.getDesiredState().getRadians() + (-yval/50)));
   }
 
   // Called once the command ends or is interrupted.

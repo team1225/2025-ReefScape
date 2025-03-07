@@ -150,24 +150,24 @@ public final class Constants {
 
 	public static final class PivotArmConstants {
 		public static final IdleMode TURNING_MOTOR_IDLE_MODE = IdleMode.kBrake;
-		public static final int TURNING_MOTOR_CURRENT_LIMIT_AMPS = 40; // amps
+		public static final int TURNING_MOTOR_CURRENT_LIMIT_AMPS = 80; // amps
 
 		public static final double TURNING_ENCODER_POSITION_FACTOR_RADIANS_PER_ROTATION = (2 * Math.PI); // radians, per rotation
 		public static final double TURNING_ENCODER_VELOCITY_FACTOR_RADIANS_PER_SECOND_PER_RPM = (2 * Math.PI) / 60.0; // radians per second, per RPM
 		
-		public static final double TURNING_P = 0.8;
-    	public static final double TURNING_I = 0.001;
+		public static final double TURNING_P = 3;
+    	public static final double TURNING_I = 0.01;
     	public static final double TURNING_D = 0.1;
-    	public static final double TURNING_FF = 0.1;
+    	public static final double TURNING_FF = 0;
 
 		public static final double TURNING_MIN_OUTPUT_NORMALIZED = -1;
 		public static final double TURNING_MAX_OUTPUT_NORMALIZED = 1;
 
-		public static final double MAX_VELOCITY = Rotation2d.fromDegrees(10).getRadians(); //radians per second
+		public static final double MAX_VELOCITY = 2; //radians per second
 		public static final double MAX_ACCELERATION_FACTOR = 2; // This will get multiplied by the MAX_VELOCITY and will in up being in radians/sec/sec Good rule of thumb is to set max accel to twice the max velocity.
 		public static final double ALLOWED_ERROR = Rotation2d.fromDegrees(0.5).getRadians();
 
-		public static final double SOFT_LIMIT_FORWARD = Rotation2d.fromDegrees(40).getRadians();
+		public static final double SOFT_LIMIT_FORWARD = Rotation2d.fromDegrees(30).getRadians();
 		public static final double SOFT_LIMIT_REVERSE = 0;
 	}
 

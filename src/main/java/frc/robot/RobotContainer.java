@@ -70,6 +70,7 @@ public class RobotContainer {
 	public static final String AUTON_TEST_HARDCODED_MOVE_1 = "Test Hardcoded Move 1";
 	public static final String AUTON_TEST_HARDCODED_MOVE_2 = "Test Hardcoded Move 2";
 	public static final String AUTON_TEST_TRAJECTORY_GENERATION = "Test Trajectory Generation";
+	public static final String AUTON_SIMPLE_DRIVE = "Simple Drive";
 	private String autonSelected;
 	private SendableChooser<String> autonChooser = new SendableChooser<>();
 
@@ -119,6 +120,8 @@ public class RobotContainer {
 	
 		SmartDashboard.putData("Auton options", autonOptionChooser);
 		
+		autonChooser.setDefaultOption(AUTON_SIMPLE_DRIVE, AUTON_SIMPLE_DRIVE);
+		autonChooser.addOption(AUTON_DO_NOTHING, AUTON_DO_NOTHING);
 
 		// Configure the button bindings
 
@@ -163,14 +166,14 @@ public class RobotContainer {
 		//driverController.x()
 		//	.onTrue(new BlastAlgae(algaeBlaster, telescopingArm));
 
-		driverController.rightBumper()
-			.onTrue(new DrivetrainTurnUsingCamera(drivetrain, apriltag_camera));
+		// driverController.rightBumper()
+		// 	.onTrue(new DrivetrainTurnUsingCamera(drivetrain, apriltag_camera));
 			
-		driverController.leftStick()
-			.onTrue(new DrivetrainSetXFormation(drivetrain));
+		// driverController.leftStick()
+		// 	.onTrue(new DrivetrainSetXFormation(drivetrain));
 
-		driverController.rightStick()
-			.onTrue(new DrivetrainTurnUsingCamera(drivetrain, object_detection_camera));
+		// driverController.rightStick()
+		// 	.onTrue(new DrivetrainTurnUsingCamera(drivetrain, object_detection_camera));
 			
 
 		// co-driver controls
@@ -179,7 +182,12 @@ public class RobotContainer {
 
 		coDriverController.leftStick()
 			.whileTrue(new ManuallyAdjustPivotArm(pivotArm, coDriverController));
+		coDriverController.a()
+			.onTrue(pivotArm.setGoalDegreesCommand(0));
 
+		coDriverController.b()
+			.onTrue(pivotArm.setGoalDegreesCommand(30));
+		
 		coDriverController.a()
 			.onTrue(telescopingArm.setPositionCommand(0));
 
@@ -187,7 +195,7 @@ public class RobotContainer {
 			.onTrue(telescopingArm.setPositionCommand(30));
 
 	
-		// Characterization commands on fourth joystick POV
+		// Characterization commands on third joystick POV
 		characterizationController.povUp()
 			.whileTrue(pivotArm.quasistaticForward());
 
@@ -213,16 +221,16 @@ public class RobotContainer {
 		autonOption = autonOptionChooser.getSelected();
 		System.out.println("Auton option: " + autonOption);
 		
-
 		switch (autonSelected) {
+			case AUTON_SIMPLE_DRIVE:
+				return new RunCommand(
+					() -> drivetrain.drive(0.4, 0, 0, false, false),
+					drivetrain)
+					.withTimeout(3);
+			
 			case AUTON_DO_NOTHING:
-				return null;
-				//break;
-				
 			default:
-				// nothing
 				return null;
-				//break;
 		} 
 	}
 
