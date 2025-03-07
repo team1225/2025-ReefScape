@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.MAXMotionConfig.MAXMotionPositionMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
@@ -76,12 +77,13 @@ public class PivotArm extends SubsystemBase {
                 .pid(PivotArmConstants.TURNING_P, PivotArmConstants.TURNING_I, PivotArmConstants.TURNING_D)
                 .outputRange(PivotArmConstants.TURNING_MIN_OUTPUT_NORMALIZED,
                         PivotArmConstants.TURNING_MAX_OUTPUT_NORMALIZED)
-                .velocityFF(PivotArmConstants.TURNING_FF)
+                // .velocityFF(PivotArmConstants.TURNING_FF)
                 // Disable PID wrap around for the ARM. We do not want a Ferris Wheel.
                 .positionWrappingEnabled(false);
         pivotMotorConfig.closedLoop.maxMotion
                 // Set MAXMotion parameters for position control. We don't need to pass
                 // a closed loop slot, as it will default to slot 0.
+                .positionMode(MAXMotionPositionMode.kMAXMotionTrapezoidal)
                 .maxVelocity(PivotArmConstants.MAX_VELOCITY)
                 .maxAcceleration(PivotArmConstants.MAX_VELOCITY * PivotArmConstants.MAX_ACCELERATION_FACTOR)
                 .allowedClosedLoopError(PivotArmConstants.ALLOWED_ERROR);

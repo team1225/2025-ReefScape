@@ -163,7 +163,7 @@ public final class Constants {
 		public static final double TURNING_MIN_OUTPUT_NORMALIZED = -1;
 		public static final double TURNING_MAX_OUTPUT_NORMALIZED = 1;
 
-		public static final double MAX_VELOCITY = 2; //radians per second
+		public static final double MAX_VELOCITY = 2 * 60; //radians per second (conversion factor is in radians and velocity is typically measured in rotations per minute so we multiply by 60)
 		public static final double MAX_ACCELERATION_FACTOR = 2; // This will get multiplied by the MAX_VELOCITY and will in up being in radians/sec/sec Good rule of thumb is to set max accel to twice the max velocity.
 		public static final double ALLOWED_ERROR = Rotation2d.fromDegrees(0.5).getRadians();
 
