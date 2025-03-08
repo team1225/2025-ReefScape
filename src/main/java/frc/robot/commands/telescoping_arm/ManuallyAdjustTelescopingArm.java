@@ -4,6 +4,7 @@
 
 package frc.robot.commands.telescoping_arm;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -29,19 +30,9 @@ public class ManuallyAdjustTelescopingArm extends Command {
   @Override
   public void execute() {
    
-    double yval = -m_controller.getRightY() / 4; // Left stick Y axis
-   
-    if (yval > 0 && !m_arm.isAtUpperLimit() || yval < 0 && !m_arm.isAtLowerLimit()) {
+    double yval = m_controller.getRightY() / 4; // Left stick Y axis
+       m_arm.setDesiredState(m_arm.getDesiredState() + (-yval/50));
 
-      double appliedVolts = yval * RobotController.getBatteryVoltage();
-
-      m_arm.setVoltage(appliedVolts);
-
-    } else {
-      m_arm.setVoltage(0);
-    }
- 
-    m_arm.setDesiredState(m_arm.getPosition());
   }
 
   // Called once the command ends or is interrupted.

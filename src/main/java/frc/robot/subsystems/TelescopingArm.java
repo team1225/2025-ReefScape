@@ -36,7 +36,7 @@ public class TelescopingArm extends SubsystemBase {
 		closedLoopController = motor.getClosedLoopController();
 
     motorConfig
-			.inverted(false)
+			.inverted(true)
       .idleMode(TelescopingArmConstants.IDLE_MODE)
       .smartCurrentLimit(TelescopingArmConstants.CURRENT_LIMIT_AMPS);
     motorConfig.absoluteEncoder
