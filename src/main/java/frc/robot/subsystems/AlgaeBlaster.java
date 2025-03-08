@@ -49,11 +49,11 @@ public class AlgaeBlaster extends SubsystemBase {
 
    
     public void Intake() {
-        leader.set(CoralatorConstants.INTAKE_SPEED * RobotController.getBatteryVoltage());
+        leader.set(CoralatorConstants.INTAKE_SPEED);
     }
 
     public void Eject() {
-        leader.setVoltage(CoralatorConstants.EJECT_SPEED * RobotController.getBatteryVoltage());
+        leader.setVoltage(CoralatorConstants.EJECT_SPEED);
     }
 
     public void Stop() {

@@ -29,6 +29,7 @@ import frc.robot.subsystems.TelescopingArm;
 import frc.robot.subsystems.AlgaeBlaster;
 import frc.robot.subsystems.Indicator;
 import frc.robot.commands.algae_blaster.BlastAlgae;
+import frc.robot.commands.algae_blaster.IntakeAlgae;
 import frc.robot.commands.drivetrain.*;
 import frc.robot.interfaces.ICamera;
 import frc.robot.commands.indicator.*;
@@ -93,7 +94,7 @@ public class RobotContainer {
 	// motorized devices
 
 	private final SwerveDrivetrain drivetrain = new SwerveDrivetrain();
-	//private final AlgaeBlaster algaeBlaster = new AlgaeBlaster();
+	private final AlgaeBlaster algaeBlaster = new AlgaeBlaster();
 	private final TelescopingArm telescopingArm = new TelescopingArm();
 	private final PivotArm pivotArm = new PivotArm();
 
@@ -182,18 +183,15 @@ public class RobotContainer {
 
 		coDriverController.leftStick()
 			.whileTrue(new ManuallyAdjustPivotArm(pivotArm, coDriverController));
+
 		coDriverController.a()
 			.onTrue(pivotArm.setGoalDegreesCommand(0));
 
 		coDriverController.y()
 			.onTrue(pivotArm.setGoalDegreesCommand(30));
-		
-		coDriverController.b()
-			.onTrue(telescopingArm.setPositionCommand(0));
 
-		coDriverController.x()
-			.onTrue(telescopingArm.setPositionCommand(7));
-
+		coDriverController.leftBumper().whileTrue(new IntakeAlgae(algaeBlaster));
+		coDriverController.rightBumper().whileTrue(new BlastAlgae(algaeBlaster));
 	
 		// Characterization commands on third joystick POV
 		characterizationController.povUp()

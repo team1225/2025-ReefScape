@@ -195,7 +195,7 @@ public final class Constants {
 
 	public static final class CoralatorConstants {
 		public static final double INTAKE_SPEED = -0.2;
-		public static final double EJECT_SPEED = 0.2;
+		public static final double EJECT_SPEED = 0.5;
 		public static final int CURRENT_LIMIT_AMPS = 10;
 		public static final IdleMode MOTOR_IDLE_MODE = IdleMode.kBrake;
 	}

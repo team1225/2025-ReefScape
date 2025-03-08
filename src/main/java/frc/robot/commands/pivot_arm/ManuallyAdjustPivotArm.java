@@ -42,7 +42,6 @@ public class ManuallyAdjustPivotArm extends Command {
     //   m_arm.setVoltage(0);
     // }
  
-
     m_arm.setDesiredState(Rotation2d.fromRadians(m_arm.getDesiredState().getRadians() + (-yval/50)));
   }
 
