@@ -27,9 +27,12 @@ import frc.robot.sensors.*;
 import frc.robot.subsystems.SwerveDrivetrain;
 import frc.robot.subsystems.TelescopingArm;
 import frc.robot.subsystems.AlgaeBlaster;
+import frc.robot.subsystems.Coralator;
 import frc.robot.subsystems.Indicator;
 import frc.robot.commands.algae_blaster.BlastAlgae;
 import frc.robot.commands.algae_blaster.IntakeAlgae;
+import frc.robot.commands.coralator.Eject;
+import frc.robot.commands.coralator.Intake;
 import frc.robot.commands.drivetrain.*;
 import frc.robot.interfaces.ICamera;
 import frc.robot.commands.indicator.*;
@@ -97,6 +100,7 @@ public class RobotContainer {
 	private final AlgaeBlaster algaeBlaster = new AlgaeBlaster();
 	private final TelescopingArm telescopingArm = new TelescopingArm();
 	private final PivotArm pivotArm = new PivotArm();
+	private final Coralator coralator = new Coralator();
 
 	// misc
 
@@ -113,16 +117,9 @@ public class RobotContainer {
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
 	 */
 	public RobotContainer() {
-		autonOptionChooser.setDefaultOption("Just Shoot Note", AUTON_OPTION_JUST_SHOOT_NOTE);
-		autonOptionChooser.addOption("Leave Community", AUTON_OPTION_LEAVE_COMMUNITY);
-		autonOptionChooser.addOption("Pickup Note At Midline", AUTON_OPTION_PICKUP_NOTE_AT_MIDLINE);
-		autonOptionChooser.addOption("Pickup Note At Wing", AUTON_OPTION_PICKUP_NOTE_AT_WING);
-		autonOptionChooser.addOption("Feed Note", AUTON_OPTION_FEED_NOTE);
-	
+		autonOptionChooser.setDefaultOption("Simple Drive", AUTON_SIMPLE_DRIVE);
+		autonOptionChooser.addOption("Do nothing", AUTON_DO_NOTHING);
 		SmartDashboard.putData("Auton options", autonOptionChooser);
-		
-		autonChooser.setDefaultOption(AUTON_SIMPLE_DRIVE, AUTON_SIMPLE_DRIVE);
-		autonChooser.addOption(AUTON_DO_NOTHING, AUTON_DO_NOTHING);
 
 		// Configure the button bindings
 
@@ -187,7 +184,13 @@ public class RobotContainer {
 		coDriverController.a()
 			.onTrue(pivotArm.setGoalDegreesCommand(0));
 
+		coDriverController.b()
+			.whileTrue(new Intake(coralator));
+
 		coDriverController.y()
+			.whileTrue(new Eject(coralator));
+
+		coDriverController.x()
 			.onTrue(pivotArm.setGoalDegreesCommand(30));
 
 		coDriverController.leftBumper().whileTrue(new IntakeAlgae(algaeBlaster));
@@ -222,9 +225,9 @@ public class RobotContainer {
 		switch (autonSelected) {
 			case AUTON_SIMPLE_DRIVE:
 				return new RunCommand(
-					() -> drivetrain.drive(0.4, 0, 0, false, false),
+					() -> drivetrain.drive(0.1, 0, 0, false, false),
 					drivetrain)
-					.withTimeout(3);
+					.withTimeout(2);
 			
 			case AUTON_DO_NOTHING:
 			default:
