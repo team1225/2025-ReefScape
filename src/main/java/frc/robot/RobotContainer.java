@@ -185,14 +185,14 @@ public class RobotContainer {
 		coDriverController.a()
 			.onTrue(pivotArm.setGoalDegreesCommand(0));
 
-		coDriverController.b()
+		coDriverController.y()
 			.onTrue(pivotArm.setGoalDegreesCommand(30));
 		
-		coDriverController.a()
+		coDriverController.b()
 			.onTrue(telescopingArm.setPositionCommand(0));
 
-		coDriverController.b()
-			.onTrue(telescopingArm.setPositionCommand(30));
+		coDriverController.x()
+			.onTrue(telescopingArm.setPositionCommand(7));
 
 	
 		// Characterization commands on third joystick POV
