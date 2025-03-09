@@ -139,6 +139,8 @@ public class RobotContainer {
 
 		indicator.setDefaultCommand(new IndicatorIndicateUsingCamera(indicator)); // default command, only runs when robot is enabled
 
+		telescopingArm.setDefaultCommand(new ManuallyAdjustTelescopingArm(telescopingArm, coDriverController));
+
 		indicatorTimedScrollRainbow = new IndicatorTimedScrollRainbow(indicator,1);
 		indicatorTimedScrollRainbow.schedule(); // we schedule the command as we are starting up
 	}
@@ -156,7 +158,7 @@ public class RobotContainer {
 
 		// driver controls
 		driverController.a()
-			.onTrue(pivotArm.setGoalDegreesCommand(0));
+			.whileTrue(new DrivetrainSetXFormation(drivetrain));
 
 		driverController.b()
 			.onTrue(pivotArm.setGoalDegreesCommand(30));
@@ -175,8 +177,8 @@ public class RobotContainer {
 			
 
 		// co-driver controls
-		coDriverController.rightStick()
-			.whileTrue(new ManuallyAdjustTelescopingArm(telescopingArm, coDriverController));
+		//coDriverController.rightStick()
+		//	.whileTrue(new ManuallyAdjustTelescopingArm(telescopingArm, coDriverController));
 
 		coDriverController.leftStick()
 			.whileTrue(new ManuallyAdjustPivotArm(pivotArm, coDriverController));
@@ -216,16 +218,13 @@ public class RobotContainer {
 	 * @return the command to run in autonomous
 	 */
 	public Command getAutonomousCommand() {
-		autonSelected = autonChooser.getSelected();
-		System.out.println("Auton selected: " + autonSelected);	
-
 		autonOption = autonOptionChooser.getSelected();
 		System.out.println("Auton option: " + autonOption);
 		
-		switch (autonSelected) {
+		switch (autonOption) {
 			case AUTON_SIMPLE_DRIVE:
 				return new RunCommand(
-					() -> drivetrain.drive(0.1, 0, 0, false, false),
+					() -> drivetrain.drive(-0.2, 0, 0, false, false),
 					drivetrain)
 					.withTimeout(2);
 			

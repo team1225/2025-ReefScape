@@ -155,19 +155,19 @@ public final class Constants {
 		public static final double TURNING_ENCODER_POSITION_FACTOR_RADIANS_PER_ROTATION = (2 * Math.PI); // radians, per rotation
 		public static final double TURNING_ENCODER_VELOCITY_FACTOR_RADIANS_PER_SECOND_PER_RPM = (2 * Math.PI) / 60.0; // radians per second, per RPM
 		
-		public static final double TURNING_P = 1.2;
-    	public static final double TURNING_I = 0;
-    	public static final double TURNING_D = 0;
+		public static final double TURNING_P = .35;
+    	public static final double TURNING_I = 0.001;
+    	public static final double TURNING_D = 1;
     	public static final double TURNING_FF = 0;
 
 		public static final double TURNING_MIN_OUTPUT_NORMALIZED = -1;
 		public static final double TURNING_MAX_OUTPUT_NORMALIZED = 1;
 
-		public static final double MAX_VELOCITY = .6 * 60; //radians per second (conversion factor is in radians and velocity is typically measured in rotations per minute so we multiply by 60)
+		public static final double MAX_VELOCITY = 2 * 60; //radians per second (conversion factor is in radians and velocity is typically measured in rotations per minute so we multiply by 60)
 		public static final double MAX_ACCELERATION_FACTOR = 2; // This will get multiplied by the MAX_VELOCITY and will in up being in radians/sec/sec Good rule of thumb is to set max accel to twice the max velocity.
 		public static final double ALLOWED_ERROR = Rotation2d.fromDegrees(0.5).getRadians();
 
-		public static final double SOFT_LIMIT_FORWARD = Rotation2d.fromDegrees(60).getRadians();
+		public static final double SOFT_LIMIT_FORWARD = Rotation2d.fromRadians(2).getRadians();
 		public static final double SOFT_LIMIT_REVERSE = 0;
 	}
 
@@ -194,16 +194,16 @@ public final class Constants {
 	}
 
 	public static final class CoralatorConstants {
-		public static final double INTAKE_SPEED = -0.2;
-		public static final double EJECT_SPEED = 0.5;
-		public static final int CURRENT_LIMIT_AMPS = 10;
+		public static final double INTAKE_SPEED = -1.0;
+		public static final double EJECT_SPEED = 1;
+		public static final int CURRENT_LIMIT_AMPS = 60;
 		public static final IdleMode MOTOR_IDLE_MODE = IdleMode.kBrake;
 	}
 
 	public static final class AlgaeBlasterConstants {
-		public static final double INTAKE_SPEED = -0.2;
-		public static final double EJECT_SPEED = 0.2;
-		public static final int CURRENT_LIMIT_AMPS = 10;
+		public static final double INTAKE_SPEED = -0.5;
+		public static final double EJECT_SPEED = 0.5;
+		public static final int CURRENT_LIMIT_AMPS = 40;
 		public static final IdleMode MOTOR_IDLE_MODE = IdleMode.kBrake;
 	}
 }

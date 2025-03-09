@@ -29,7 +29,10 @@ public class ManuallyAdjustTelescopingArm extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double yval = m_controller.getRightY() / 4; 
+    double yval = m_controller.getRightY() / 2;
+    if (Math.abs(m_controller.getRightY()) < 0.1) {
+      yval = 0;
+    }
     m_arm.setSpeed(-yval);
   }
 

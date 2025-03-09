@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.TelescopingArmConstants;
+import frc.robot.commands.telescoping_arm.ManuallyAdjustTelescopingArm;
 import frc.robot.Ports;
 
 public class TelescopingArm extends SubsystemBase {

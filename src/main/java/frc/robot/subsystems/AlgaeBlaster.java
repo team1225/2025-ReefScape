@@ -36,7 +36,7 @@ public class AlgaeBlaster extends SubsystemBase {
 
         followerMotorConfig = new SparkMaxConfig();
         followerMotorConfig
-            .follow(leader, true)
+            // .follow(leader, true)
             .idleMode(AlgaeBlasterConstants.MOTOR_IDLE_MODE)
             .smartCurrentLimit(AlgaeBlasterConstants.CURRENT_LIMIT_AMPS);
         follower.configure(followerMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -50,13 +50,16 @@ public class AlgaeBlaster extends SubsystemBase {
    
     public void Intake() {
         leader.set(CoralatorConstants.INTAKE_SPEED);
+        follower.set(CoralatorConstants.INTAKE_SPEED);
     }
 
     public void Eject() {
-        leader.setVoltage(CoralatorConstants.EJECT_SPEED);
+        leader.set(CoralatorConstants.EJECT_SPEED);
+        follower.set(CoralatorConstants.EJECT_SPEED);
     }
 
     public void Stop() {
         leader.set(0);
+        follower.set(0);
     } 
 }
