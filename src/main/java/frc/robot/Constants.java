@@ -121,7 +121,7 @@ public final class Constants {
 		public static final IdleMode DRIVING_MOTOR_IDLE_MODE = IdleMode.kBrake;
 		public static final IdleMode TURNING_MOTOR_IDLE_MODE = IdleMode.kBrake;
 
-		public static final int DRIVING_MOTOR_CURRENT_LIMIT_AMPS = 40; //50; // amps
+		public static final int DRIVING_MOTOR_CURRENT_LIMIT_AMPS = 80; //50; // amps
 		public static final int TURNING_MOTOR_CURRENT_LIMIT_AMPS = 20; // amps
 	}
 
@@ -201,9 +201,9 @@ public final class Constants {
 	}
 
 	public static final class AlgaeBlasterConstants {
-		public static final double INTAKE_SPEED = -0.5;
+		public static final double INTAKE_SPEED = -0.05;
 		public static final double EJECT_SPEED = 0.5;
-		public static final int CURRENT_LIMIT_AMPS = 40;
+		public static final int CURRENT_LIMIT_AMPS = 60;
 		public static final IdleMode MOTOR_IDLE_MODE = IdleMode.kBrake;
 	}
 }
