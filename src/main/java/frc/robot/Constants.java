@@ -167,7 +167,7 @@ public final class Constants {
 		public static final double MAX_ACCELERATION_FACTOR = 2; // This will get multiplied by the MAX_VELOCITY and will in up being in radians/sec/sec Good rule of thumb is to set max accel to twice the max velocity.
 		public static final double ALLOWED_ERROR = Rotation2d.fromDegrees(0.5).getRadians();
 
-		public static final double SOFT_LIMIT_FORWARD = Rotation2d.fromRadians(2).getRadians();
+		public static final double SOFT_LIMIT_FORWARD = Rotation2d.fromRadians(2.1).getRadians();
 		public static final double SOFT_LIMIT_REVERSE = 0;
 	}
 
