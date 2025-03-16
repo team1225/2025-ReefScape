@@ -3,14 +3,13 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.RobotController;
 
 import frc.robot.Constants.AlgaeBlasterConstants;
-import frc.robot.Constants.CoralatorConstants;
 import frc.robot.Ports;
 
 /**
@@ -49,13 +48,13 @@ public class AlgaeBlaster extends SubsystemBase {
 
    
     public void Intake() {
-        leader.set(CoralatorConstants.INTAKE_SPEED);
-        follower.set(CoralatorConstants.INTAKE_SPEED);
+        leader.set(AlgaeBlasterConstants.INTAKE_SPEED);
+        follower.set(AlgaeBlasterConstants.INTAKE_SPEED);
     }
 
     public void Eject() {
-        leader.set(CoralatorConstants.EJECT_SPEED);
-        follower.set(CoralatorConstants.EJECT_SPEED);
+        leader.set(AlgaeBlasterConstants.EJECT_SPEED);
+        follower.set(AlgaeBlasterConstants.EJECT_SPEED);
     }
 
     public void Stop() {
