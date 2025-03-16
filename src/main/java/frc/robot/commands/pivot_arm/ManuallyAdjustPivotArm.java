@@ -29,26 +29,14 @@ public class ManuallyAdjustPivotArm extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   
     double yval = m_controller.getLeftY(); // Left stick Y axis
-   
-    // if (yval > 0 && !m_arm.isAtUpperLimit() || yval < 0 && !m_arm.isAtLowerLimit()) {
-
-    //   double appliedVolts = yval * RobotController.getBatteryVoltage();
-
-    //   m_arm.setVoltage(yval);
-
-    // } else {
-    //   m_arm.setVoltage(0);
-    // }
- 
-    m_arm.setDesiredState(Rotation2d.fromRadians(m_arm.getDesiredState().getRadians() + (-yval/50)));
+    m_arm.driveManually(-yval);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
+    m_arm.setDesiredState(Rotation2d.fromRadians(m_arm.getPosition()));
   }
 
   // Returns true when the command should end.

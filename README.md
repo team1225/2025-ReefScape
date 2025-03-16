@@ -10,8 +10,7 @@ This repository contains the code for our 2025 FRC competition robot, designed f
 - Gear ratio: L2 6.75:1
 - Maximum speed: TBD
 
-To set the zeros of the dri
-vetrain align the wheels so the bolt head faces the port side (left if standing behind the robot).  Use the Rev Hardware Client to set the zero on of the absolute encoders remembering to persist parameters.
+To set the zeros of the drivetrain align the wheels so the bolt head faces the port side (left if standing behind the robot).  Use the Rev Hardware Client to set the zero on of the absolute encoders remembering to persist parameters.
 
 ### Sensors
 - CTRE Pigeon 2.0 IMU for robot orientation and field-relative driving

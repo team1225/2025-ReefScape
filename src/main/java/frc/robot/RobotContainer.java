@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -75,6 +76,7 @@ public class RobotContainer {
 	public static final String AUTON_TEST_HARDCODED_MOVE_2 = "Test Hardcoded Move 2";
 	public static final String AUTON_TEST_TRAJECTORY_GENERATION = "Test Trajectory Generation";
 	public static final String AUTON_SIMPLE_DRIVE = "Simple Drive";
+	public static final String AUTON_DRIVE_PLUS = "Drive plus";
 	private String autonSelected;
 	private SendableChooser<String> autonChooser = new SendableChooser<>();
 
@@ -118,6 +120,7 @@ public class RobotContainer {
 	 */
 	public RobotContainer() {
 		autonOptionChooser.setDefaultOption("Simple Drive", AUTON_SIMPLE_DRIVE);
+		autonOptionChooser.addOption("Drive plus", AUTON_DRIVE_PLUS);
 		autonOptionChooser.addOption("Do nothing", AUTON_DO_NOTHING);
 		SmartDashboard.putData("Auton options", autonOptionChooser);
 
@@ -161,7 +164,7 @@ public class RobotContainer {
 			.whileTrue(new DrivetrainSetXFormation(drivetrain));
 
 		driverController.b()
-			.onTrue(pivotArm.setGoalDegreesCommand(30));
+			.onTrue(pivotArm.setGoalDegreesCommand(Rotation2d.fromRadians(.3766).getDegrees()));
 		
 		//driverController.x()
 		//	.onTrue(new BlastAlgae(algaeBlaster, telescopingArm));
@@ -180,6 +183,7 @@ public class RobotContainer {
 		//coDriverController.rightStick()
 		//	.whileTrue(new ManuallyAdjustTelescopingArm(telescopingArm, coDriverController));
 
+		// speed factor (smaller is faster)
 		coDriverController.leftStick()
 			.whileTrue(new ManuallyAdjustPivotArm(pivotArm, coDriverController));
 
@@ -197,6 +201,9 @@ public class RobotContainer {
 
 		coDriverController.leftBumper().whileTrue(new IntakeAlgae(algaeBlaster));
 		coDriverController.rightBumper().whileTrue(new BlastAlgae(algaeBlaster));
+
+		coDriverController.povUp().onTrue(pivotArm.setSpeedFactorCommand(50));
+		coDriverController.povDown().onTrue(pivotArm.setSpeedFactorCommand(150));
 	
 		// Characterization commands on third joystick POV
 		characterizationController.povUp()
@@ -227,6 +234,12 @@ public class RobotContainer {
 					() -> drivetrain.drive(-0.2, 0, 0, false, false),
 					drivetrain)
 					.withTimeout(2);
+			
+			case AUTON_DRIVE_PLUS:
+				return new RunCommand(
+					() -> drivetrain.drive(-0.3, 0, 0, false, false),
+					drivetrain)
+					.withTimeout(4);
 			
 			case AUTON_DO_NOTHING:
 			default:

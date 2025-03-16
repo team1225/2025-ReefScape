@@ -54,10 +54,10 @@ public class PivotArm extends SubsystemBase {
     private double kI = PivotArmConstants.TURNING_I;
     private double kD = PivotArmConstants.TURNING_D;
     private double kFF = PivotArmConstants.TURNING_FF;
+    private double speedFactor = 50;
 
     /** Creates a new Arm. */
     public PivotArm() {
-        
         pivotMotor = new SparkMax(Ports.CAN.PIVOT_ARM, MotorType.kBrushless);
         pivotMotorConfig = new SparkMaxConfig();
         pivotAbsoluteEncoder = pivotMotor.getAbsoluteEncoder();
@@ -169,13 +169,24 @@ public class PivotArm extends SubsystemBase {
      * @param desiredState Desired state with speed and angle.
      */
     public void setDesiredState(Rotation2d desiredState) {
-        if (desiredState.getRadians() > 6.00) {
-            desiredState = Rotation2d.fromRadians(0);
+        if (desiredState.getRadians() > PivotArmConstants.SOFT_LIMIT_FORWARD) {
+            desiredState = Rotation2d.fromRadians(PivotArmConstants.SOFT_LIMIT_FORWARD);
+        }
+        if (desiredState.getRadians() < PivotArmConstants.SOFT_LIMIT_REVERSE) {
+            desiredState = Rotation2d.fromRadians(PivotArmConstants.SOFT_LIMIT_REVERSE);
         }
         pivotClosedLoopController.setReference(desiredState.getRadians(),
                 ControlType.kMAXMotionPositionControl,
                 ClosedLoopSlot.kSlot0);
         pivotDesiredState = desiredState;
+    }
+
+    public void driveManually(double speed) {
+        setDesiredState(Rotation2d.fromRadians(getDesiredState().getRadians() + (speed / speedFactor)));
+    }
+
+    public void driveManuallyVoltage(double voltage) {
+        pivotClosedLoopController.setReference(voltage, ControlType.kVoltage);
     }
 
     public void setGoalDegrees(Rotation2d targetDegrees) {
@@ -184,6 +195,10 @@ public class PivotArm extends SubsystemBase {
 
     public void setVoltage(double voltage) {
         pivotMotor.set(voltage);
+    }
+
+    public void setSpeedFactor(double factor) {
+        this.speedFactor = factor;
     }
 
     // ******************************************************************************************
@@ -199,6 +214,10 @@ public class PivotArm extends SubsystemBase {
 
     public Command setVoltageCommand(double voltage) {
         return Commands.runOnce(() -> setVoltage(voltage));
+    }
+
+    public Command setSpeedFactorCommand(double speedFactor) {
+        return Commands.runOnce(() -> setSpeedFactor(speedFactor));
     }
     
     // ******************************************************************************************
