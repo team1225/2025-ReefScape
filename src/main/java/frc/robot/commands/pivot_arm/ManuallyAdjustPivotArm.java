@@ -4,6 +4,7 @@
 
 package frc.robot.commands.pivot_arm;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -14,6 +15,7 @@ public class ManuallyAdjustPivotArm extends Command {
   /** Creates a new JogArm. */
   private PivotArm m_arm;
   private CommandXboxController m_controller;
+  private SlewRateLimiter m_magLimiter = new SlewRateLimiter(1.5);
 
   public ManuallyAdjustPivotArm(PivotArm arm, CommandXboxController controller) {
     m_arm = arm;
@@ -30,7 +32,11 @@ public class ManuallyAdjustPivotArm extends Command {
   @Override
   public void execute() {
     double yval = m_controller.getLeftY(); // Left stick Y axis
-    m_arm.driveManually(-yval);
+    if (Math.abs(yval) > 0.2) {
+      m_arm.driveManuallyVoltage(m_magLimiter.calculate(-yval * 3));
+    } else {
+      m_arm.setDesiredState(Rotation2d.fromRadians(m_arm.getPosition()));
+    }
   }
 
   // Called once the command ends or is interrupted.
