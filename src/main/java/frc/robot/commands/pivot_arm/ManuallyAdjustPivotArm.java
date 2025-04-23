@@ -9,13 +9,19 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.subsystems.PivotArm;
 
 public class ManuallyAdjustPivotArm extends Command {
   /** Creates a new JogArm. */
   private PivotArm m_arm;
   private CommandXboxController m_controller;
+<<<<<<< HEAD
   private SlewRateLimiter m_magLimiter = new SlewRateLimiter(1.5);
+=======
+  private SlewRateLimiter m_magLimiter = new SlewRateLimiter(.5);
+
+>>>>>>> 121992f3a70280e1c36b34458aa404e2c8a78153
 
   public ManuallyAdjustPivotArm(PivotArm arm, CommandXboxController controller) {
     m_arm = arm;
@@ -32,11 +38,15 @@ public class ManuallyAdjustPivotArm extends Command {
   @Override
   public void execute() {
     double yval = m_controller.getLeftY(); // Left stick Y axis
+<<<<<<< HEAD
     if (Math.abs(yval) > 0.2) {
       m_arm.driveManuallyVoltage(m_magLimiter.calculate(-yval * 3));
     } else {
       m_arm.setDesiredState(Rotation2d.fromRadians(m_arm.getPosition()));
     }
+=======
+    m_arm.driveManuallyVoltage(m_magLimiter.calculate(-yval));
+>>>>>>> 121992f3a70280e1c36b34458aa404e2c8a78153
   }
 
   // Called once the command ends or is interrupted.
