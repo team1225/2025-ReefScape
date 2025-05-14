@@ -50,6 +50,11 @@ public final class Constants {
 		}
 	}
 
+	public static class CameraConstants {
+		public static final double cameraHeightFromGround = Units.inchesToMeters(18);
+		public static final double cameraDistanceFromFront = Units.inchesToMeters(13.5 - 15);
+		public static final double cameraDistanceFromRight = Units.inchesToMeters(13.5 - 13.5);
+	}
 
 	public static final class DrivetrainConstants {
 		// Driving Parameters - Note that these are not the maximum capable speeds of
