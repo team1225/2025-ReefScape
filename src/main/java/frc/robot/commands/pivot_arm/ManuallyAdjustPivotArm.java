@@ -16,7 +16,7 @@ public class ManuallyAdjustPivotArm extends Command {
   /** Creates a new JogArm. */
   private PivotArm m_arm;
   private CommandXboxController m_controller;
-  private SlewRateLimiter m_magLimiter = new SlewRateLimiter(.5);
+  private SlewRateLimiter m_magLimiter = new SlewRateLimiter(.75);
 
 
   public ManuallyAdjustPivotArm(PivotArm arm, CommandXboxController controller) {
@@ -34,7 +34,7 @@ public class ManuallyAdjustPivotArm extends Command {
   @Override
   public void execute() {
     double yval = m_controller.getLeftY(); // Left stick Y axis
-    m_arm.driveManuallyVoltage(m_magLimiter.calculate(-yval));
+    m_arm.driveManuallyVoltage(m_magLimiter.calculate(-yval * 2));
   }
 
   // Called once the command ends or is interrupted.

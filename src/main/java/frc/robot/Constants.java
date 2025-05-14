@@ -155,9 +155,12 @@ public final class Constants {
 		public static final double TURNING_ENCODER_POSITION_FACTOR_RADIANS_PER_ROTATION = (2 * Math.PI); // radians, per rotation
 		public static final double TURNING_ENCODER_VELOCITY_FACTOR_RADIANS_PER_SECOND_PER_RPM = (2 * Math.PI) / 60.0; // radians per second, per RPM
 		
+		// public static final double TURNING_P = .38;
+    	// public static final double TURNING_I = 0.001;
+    	// public static final double TURNING_D = 1;
 		public static final double TURNING_P = .38;
-    	public static final double TURNING_I = 0.001;
-    	public static final double TURNING_D = 1;
+    	public static final double TURNING_I = 0;
+    	public static final double TURNING_D = 0;
     	public static final double TURNING_FF = 0;
 
 		public static final double TURNING_MIN_OUTPUT_NORMALIZED = -1;
@@ -194,15 +197,15 @@ public final class Constants {
 	}
 
 	public static final class CoralatorConstants {
-		public static final double INTAKE_SPEED = -1.0;
-		public static final double EJECT_SPEED = 1;
+		public static final double INTAKE_SPEED = -0.05;
+		public static final double EJECT_SPEED = 0.05;
 		public static final int CURRENT_LIMIT_AMPS = 60;
 		public static final IdleMode MOTOR_IDLE_MODE = IdleMode.kBrake;
 	}
 
 	public static final class AlgaeBlasterConstants {
 		public static final double INTAKE_SPEED = -1.0;
-		public static final double EJECT_SPEED = 0.35;
+		public static final double EJECT_SPEED = 0.55;
 		public static final int CURRENT_LIMIT_AMPS = 60;
 		public static final IdleMode MOTOR_IDLE_MODE = IdleMode.kBrake;
 	}

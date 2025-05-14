@@ -230,7 +230,7 @@ public class SwerveDrivetrain extends SubsystemBase {
 		if (rateLimit) {
 			// Convert XY to polar for rate limiting
 			double inputTranslationDir = Math.atan2(ySpeed, xSpeed);
-			double inputTranslationMag = Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2));
+			double inputTranslationMag = Math.sqrt(Math.pow(xSpeed/2, 2) + Math.pow(ySpeed/2, 2));
 
 			// Calculate the direction slew rate based on an estimate of the lateral acceleration
 			double directionSlewRate;
