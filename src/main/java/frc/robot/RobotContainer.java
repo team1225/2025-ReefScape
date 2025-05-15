@@ -188,7 +188,7 @@ public class RobotContainer {
 			.whileTrue(new ManuallyAdjustPivotArm(pivotArm, coDriverController));
 
 		coDriverController.a()
-			.onTrue(pivotArm.setGoalDegreesCommand(0));
+			.onTrue(pivotArm.setGoalDegreesCommand(30));
 
 		coDriverController.b()
 			.whileTrue(new Intake(coralator));

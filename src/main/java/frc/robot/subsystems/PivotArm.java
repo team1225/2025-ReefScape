@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PivotArmConstants;
+import frc.robot.commands.pivot_arm.ManuallyAdjustPivotArm;
 import frc.robot.Ports;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
@@ -62,7 +63,7 @@ public class PivotArm extends SubsystemBase {
         pivotMotorConfig = new SparkMaxConfig();
         pivotAbsoluteEncoder = pivotMotor.getAbsoluteEncoder();
         pivotClosedLoopController = pivotMotor.getClosedLoopController();
-
+        
         pivotMotorConfig
                 .inverted(false)
                 .idleMode(PivotArmConstants.TURNING_MOTOR_IDLE_MODE)
@@ -181,8 +182,10 @@ public class PivotArm extends SubsystemBase {
         pivotDesiredState = desiredState;
     }
 
-    public void driveManually(double speed) {
-        setDesiredState(Rotation2d.fromRadians(getDesiredState().getRadians() + (speed / speedFactor)));
+    public void driveManually (double speed) {
+        // if ( getPosition() > getDesiredState().getRadians()- 0.1 && getPosition() < getDesiredState().getRadians() + 0.1){
+            setDesiredState(Rotation2d.fromRadians(getDesiredState().getRadians() + (speed / speedFactor)));
+        // }
     }
 
     public void driveManuallyVoltage(double voltage) {
