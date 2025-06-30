@@ -143,7 +143,7 @@ public class RobotContainer {
 		indicator.setDefaultCommand(new IndicatorIndicateUsingCamera(indicator)); // default command, only runs when robot is enabled
 
 		telescopingArm.setDefaultCommand(new ManuallyAdjustTelescopingArm(telescopingArm, coDriverController));
-		pivotArm.setDefaultCommand(new ManuallyAdjustPivotArm(pivotArm, coDriverController));
+		// pivotArm.setDefaultCommand(new ManuallyAdjustPivotArm(pivotArm, coDriverController));
 		indicatorTimedScrollRainbow = new IndicatorTimedScrollRainbow(indicator,1);
 		indicatorTimedScrollRainbow.schedule(); // we schedule the command as we are starting up
 	}

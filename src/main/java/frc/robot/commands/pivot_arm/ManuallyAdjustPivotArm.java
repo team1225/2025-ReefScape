@@ -37,7 +37,7 @@ public class ManuallyAdjustPivotArm extends Command {
   @Override
   public void execute() {
     double yval = m_controller.getLeftY(); // Left stick Y axis
-    m_arm.driveManuallyVoltage(m_magLimiter.calculate(-yval*3));
+    m_arm.driveManuallyVoltage(m_magLimiter.calculate(-yval*6));
     //if (yval < 0.1 && yval > -0.1)
     // m_arm.driveManually(m_magLimiter.calculate(-yval)); this can work the problem is in manual controle i think
   }
