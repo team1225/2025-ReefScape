@@ -65,6 +65,8 @@ public class Ports {
 
 			public static final int CORALATOR = 14;
 
+			public static final int CLIMBER = 17;
+
 			public static final int ALGAE_BLASTER_LEADER = 15;
 			public static final int ALGAE_BLASTER_FOLLOWER = 16;
 		}

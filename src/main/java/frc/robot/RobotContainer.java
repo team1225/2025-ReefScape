@@ -29,11 +29,14 @@ import frc.robot.subsystems.SwerveDrivetrain;
 import frc.robot.subsystems.TelescopingArm;
 import frc.robot.subsystems.AlgaeBlaster;
 import frc.robot.subsystems.Coralator;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Indicator;
 import frc.robot.commands.algae_blaster.BlastAlgae;
 import frc.robot.commands.algae_blaster.IntakeAlgae;
 import frc.robot.commands.coralator.Eject;
 import frc.robot.commands.coralator.Intake;
+import frc.robot.commands.climber.Out;
+import frc.robot.commands.climber.Climb;
 import frc.robot.commands.drivetrain.*;
 import frc.robot.interfaces.ICamera;
 import frc.robot.commands.indicator.*;
@@ -103,6 +106,8 @@ public class RobotContainer {
 	private final TelescopingArm telescopingArm = new TelescopingArm();
 	private final PivotArm pivotArm = new PivotArm();
 	private final Coralator coralator = new Coralator();
+	private final Climber climber = new Climber();
+
 
 	// misc
 
@@ -166,6 +171,12 @@ public class RobotContainer {
 		driverController.b()
 			.onTrue(pivotArm.setGoalDegreesCommand(Rotation2d.fromRadians(.3766).getDegrees()));
 		
+		driverController.x()
+			.whileTrue(new Out(climber));
+
+		driverController.y()
+			.whileTrue(new Climb(climber));
+
 		//driverController.x()
 		//	.onTrue(new BlastAlgae(algaeBlaster, telescopingArm));
 
