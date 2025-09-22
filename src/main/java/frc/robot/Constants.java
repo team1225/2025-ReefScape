@@ -161,8 +161,12 @@ public final class Constants {
 		public static final double TURNING_ENCODER_VELOCITY_FACTOR_RADIANS_PER_SECOND_PER_RPM = (2 * Math.PI) / 60.0; // radians per second, per RPM
 		
 		public static final double TURNING_P = 2.2;
-    	public static final double TURNING_I = 0.00095;
+    	public static final double TURNING_I = 0.001;
     	public static final double TURNING_D = 1;
+		
+				// public static final double TURNING_P = 2.2;
+				// public static final double TURNING_I = 0.00095;
+				// public static final double TURNING_D = 1;
 		
 		
 		//public static final double TURNING_P = 0.7;
@@ -207,8 +211,8 @@ public final class Constants {
 	}
 
 	public static final class CoralatorConstants {
-		public static final double INTAKE_SPEED = -0.05;
-		public static final double EJECT_SPEED = 0.05;
+		public static final double INTAKE_SPEED = 0.05;
+		public static final double EJECT_SPEED = -0.05;
 		public static final int CURRENT_LIMIT_AMPS = 60;
 		public static final IdleMode MOTOR_IDLE_MODE = IdleMode.kBrake;
 	}
