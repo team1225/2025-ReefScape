@@ -218,13 +218,13 @@ public final class Constants {
 	}
 
 	public static final class ClimberConstants {
-		public static final double CLIMB_SPEED = 0.05;
-		public static final double OUT_SPEED = -0.05;
+		public static final double CLIMB_SPEED = 0.1;
+		public static final double OUT_SPEED = -0.1;
 		public static final int CURRENT_LIMIT_AMPS = 60;
 		public static final IdleMode MOTOR_IDLE_MODE = IdleMode.kBrake;
 
 		public static final double SOFT_LIMIT_FORWARD = 1;
-		public static final double SOFT_LIMIT_REVERSE = -1;
+		public static final double SOFT_LIMIT_REVERSE = -50;
 	}
 
 	public static final class AlgaeBlasterConstants {
