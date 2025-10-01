@@ -14,7 +14,7 @@ public class BlastAlgae extends Command {
 
     @Override
     public void initialize() {
-        algaeBlaster.Eject();
+        algaeBlaster.eject();
     }
 
     @Override
@@ -28,6 +28,6 @@ public class BlastAlgae extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        algaeBlaster.Stop();
+        algaeBlaster.stop();
     }
 }
