@@ -33,15 +33,15 @@ public class Coralator extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void Intake() {
+  public void intake() {
     motor.set(CoralatorConstants.INTAKE_SPEED);
   }
 
-  public void Eject() {
+  public void eject() {
     motor.set(CoralatorConstants.EJECT_SPEED);
   }
 
-  public void Stop() {
+  public void stop() {
     motor.set(0);
   }
 }

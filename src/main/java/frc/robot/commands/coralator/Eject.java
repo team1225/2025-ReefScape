@@ -22,13 +22,13 @@ public class Eject extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    this.coralator.Eject();
+    this.coralator.eject();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    this.coralator.Stop();
+    this.coralator.stop();
   }
 
   // Returns true when the command should end.

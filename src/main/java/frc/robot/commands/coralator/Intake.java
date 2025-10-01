@@ -23,13 +23,13 @@ public class Intake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    coralator.Intake();
+    coralator.intake();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    coralator.Stop();
+    coralator.stop();
   }
 
   // Returns true when the command should end.

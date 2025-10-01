@@ -47,17 +47,17 @@ public class AlgaeBlaster extends SubsystemBase {
     }
 
    
-    public void Intake() {
+    public void intake() {
         leader.set(AlgaeBlasterConstants.INTAKE_SPEED);
         follower.set(AlgaeBlasterConstants.INTAKE_SPEED);
     }
 
-    public void Eject() {
+    public void eject() {
         leader.set(AlgaeBlasterConstants.EJECT_SPEED);
         follower.set(AlgaeBlasterConstants.EJECT_SPEED);
     }
 
-    public void Stop() {
+    public void stop() {
         leader.set(0);
         follower.set(0);
     } 

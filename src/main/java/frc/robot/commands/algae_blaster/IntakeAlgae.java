@@ -15,7 +15,7 @@ public class IntakeAlgae extends Command {
 	// Called once when the command executes
 	@Override
 	public void initialize() {
-		algaeBlaster.Intake();
+		algaeBlaster.intake();
 	}
 
     @Override
@@ -25,7 +25,7 @@ public class IntakeAlgae extends Command {
 	
     @Override
     public void end(boolean interrupted) {
-        algaeBlaster.Stop();
+        algaeBlaster.stop();
     }
 }
 
