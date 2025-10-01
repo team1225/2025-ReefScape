@@ -41,15 +41,15 @@ public class Climber extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void Climb() {
+  public void climb() {
     motor.set(ClimberConstants.CLIMB_SPEED);
   }
 
-  public void Out() {
+  public void out() {
     motor.set(ClimberConstants.OUT_SPEED);
   }
 
-  public void Stop() {
+  public void stop() {
     motor.set(0);
   }
 

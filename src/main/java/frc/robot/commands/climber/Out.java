@@ -22,13 +22,13 @@ public class Out extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    this.Climber.Out();
+    this.Climber.out();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    this.Climber.Stop();
+    this.Climber.stop();
   }
 
   // Returns true when the command should end.

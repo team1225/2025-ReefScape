@@ -24,16 +24,16 @@ public class Climb extends Command {
   @Override
   public void execute() {
     if (Climber.isSwitchPressed()) {
-      Climber.Stop();
+      Climber.stop();
     } else {
-      Climber.Climb();
+      Climber.climb();
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Climber.Stop();
+    Climber.stop();
   }
 
   // Returns true when the command should end.
@@ -44,7 +44,7 @@ public class Climb extends Command {
 
   public void periodic() {
     if (Climber.isSwitchPressed()) {
-      Climber.Stop();
+      Climber.stop();
     }
   }
 }
