@@ -151,6 +151,8 @@ public class Robot extends TimedRobot {
 		m_robotContainer.getField().setRobotPose(m_robotContainer.getDrivetrain().getPose());
 		SmartDashboard.putNumber(   "Heading",             m_robotContainer.getDrivetrain().getHeading());
 
+		SmartDashboard.putBoolean("MagLimitSwitch", m_robotContainer.getClimber().isSwitchPressed());
+
 		/*
 		SmartDashboard.putNumber("AccelZ", m_robotContainer.getAccelerometer().getAccelZ());
 		SmartDashboard.putNumber("Tilt", m_robotContainer.getAccelerometer().getTilt());

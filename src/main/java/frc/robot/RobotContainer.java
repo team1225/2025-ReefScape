@@ -339,6 +339,10 @@ public class RobotContainer {
 		return drivetrain;
 	}
 
+	public Climber getClimber() {
+		return climber;
+	}
+
 	public SendableChooser<String> getAutonChooser()
 	{
 		return autonChooser;

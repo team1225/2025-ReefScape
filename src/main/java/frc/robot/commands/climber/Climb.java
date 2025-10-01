@@ -23,7 +23,11 @@ public class Climb extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Climber.Climb();
+    if (Climber.isSwitchPressed()) {
+      Climber.Stop();
+    } else {
+      Climber.Climb();
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -36,5 +40,11 @@ public class Climb extends Command {
   @Override
   public boolean isFinished() {
     return false;
+  }
+
+  public void periodic() {
+    if (Climber.isSwitchPressed()) {
+      Climber.Stop();
+    }
   }
 }

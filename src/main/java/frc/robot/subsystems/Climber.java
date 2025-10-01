@@ -12,11 +12,12 @@ import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
 import frc.robot.Constants.ClimberConstants;
-import frc.robot.Constants.PivotArmConstants;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Climber extends SubsystemBase {
   private final SparkMax motor;
 	private final SparkMaxConfig motorConfig;
+  private final DigitalInput magneticLimitSwitch;
 
   /** Creates a new Climber. */
   public Climber() {
@@ -32,6 +33,7 @@ public class Climber extends SubsystemBase {
                 .reverseSoftLimit(ClimberConstants.SOFT_LIMIT_REVERSE)
                 .reverseSoftLimitEnabled(true);
       motor.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+      magneticLimitSwitch = new DigitalInput(0);
   }
 
   @Override
@@ -49,5 +51,9 @@ public class Climber extends SubsystemBase {
 
   public void Stop() {
     motor.set(0);
+  }
+
+  public boolean isSwitchPressed() {
+    return !magneticLimitSwitch.get();
   }
 }

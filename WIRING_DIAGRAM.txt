@@ -1,0 +1,30 @@
+REV Magnetic Limit Switch Wiring Diagram
+=========================================
+
+REV Magnetic Limit Switch (4-pin connector)
+┌─────────────────────────────────┐
+│  Pin 1: VCC (Power)     [Red]  │
+│  Pin 2: GND (Ground)    [Black]│
+│  Pin 3: Signal          [White]│
+│  Pin 4: Unused          [NC]   │
+└─────────────────────────────────┘
+                │
+                │ 3-pin PWM Cable
+                ▼
+┌─────────────────────────────────┐
+│  RoboRIO DIO Port (3-pin)      │
+│  Pin 1: Signal          [White]│ ← Connect to Pin 3 of sensor
+│  Pin 2: 5V Power        [Red]  │ ← Connect to Pin 1 of sensor  
+│  Pin 3: Ground          [Black]│ ← Connect to Pin 2 of sensor
+└─────────────────────────────────┘
+
+Connection Summary:
+- Sensor Pin 1 (VCC) → RoboRIO Pin 2 (5V Power) - Red wire
+- Sensor Pin 2 (GND) → RoboRIO Pin 3 (Ground) - Black wire
+- Sensor Pin 3 (Signal) → RoboRIO Pin 1 (Signal) - White wire
+- Sensor Pin 4 (Unused) → Not connected
+
+Code Usage:
+- DIO Port: 0 (defined in Ports.Digital.MAGNETIC_LIMIT_SWITCH)
+- Sensor returns: true when magnet is NOT present, false when magnet IS present
+- Code inverts this: isPressed() returns true when magnet IS present
