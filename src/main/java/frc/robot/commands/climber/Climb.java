@@ -10,10 +10,10 @@ import frc.robot.subsystems.Climber;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Climb extends Command {
   /** Creates a new Intake. */
-  private Climber Climber;
-  public Climb(Climber Climber) {
-    this.Climber = Climber;
-    addRequirements(Climber);
+  private Climber climber;
+  public Climb(Climber climber) {
+    this.climber = climber;
+    addRequirements(climber);
   }
 
   // Called when the command is initially scheduled.
@@ -23,17 +23,17 @@ public class Climb extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Climber.isSwitchPressed()) {
-      Climber.stop();
+    if (climber.isSwitchPressed()) {
+      climber.stop();
     } else {
-      Climber.climb();
+      climber.climb();
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Climber.stop();
+    climber.stop();
   }
 
   // Returns true when the command should end.
@@ -43,8 +43,8 @@ public class Climb extends Command {
   }
 
   public void periodic() {
-    if (Climber.isSwitchPressed()) {
-      Climber.stop();
+    if (climber.isSwitchPressed()) {
+      climber.stop();
     }
   }
 }
